@@ -146,7 +146,8 @@ class PostComment(Base):
 
     post = relationship("CommunityPost", back_populates="comments")
     author = relationship("User", back_populates="comments")
-    replies = relationship("PostComment", backref="parent", remote_side=[id], cascade="all, delete-orphan")
+    parent = relationship("PostComment", remote_side=[id], back_populates="replies")
+    replies = relationship("PostComment", back_populates="parent", cascade="all, delete-orphan")
 
 
 class ReferralListing(Base):
