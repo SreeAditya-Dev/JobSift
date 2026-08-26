@@ -143,12 +143,6 @@ export const Navbar: React.FC = () => {
                     <span className="font-extrabold text-[15px] sm:text-base tracking-tight text-white">
                       Job<span className="text-[#f2c89b] font-black">Sift</span>
                     </span>
-
-                    {/* AI OS Stacked Pill Badge */}
-                    <div className="flex flex-col items-center justify-center px-1.5 py-0.5 rounded-md bg-[#252220] border border-[#3e3832] text-[7.5px] font-black leading-none text-[#f2c89b] tracking-wider">
-                      <span>AI</span>
-                      <span className="mt-0.5">OS</span>
-                    </div>
                   </div>
                 </div>
               </button>
