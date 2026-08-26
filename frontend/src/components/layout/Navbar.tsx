@@ -170,10 +170,7 @@ export const Navbar: React.FC = () => {
                 }`}
               >
                 <Briefcase className={`w-4 h-4 ${isActive('/jobs') ? 'text-[#f2c89b]' : 'text-stone-400'}`} />
-                <div className="flex flex-col text-left leading-tight">
-                  <span className="text-[11px] font-medium">Explore</span>
-                  <span className="text-[11px] font-medium">Jobs</span>
-                </div>
+                <span className="text-[11.5px] font-medium">Jobs</span>
               </button>
 
               {/* 2. Kanban Tracker */}
@@ -186,10 +183,7 @@ export const Navbar: React.FC = () => {
                 }`}
               >
                 <Columns3 className={`w-4 h-4 ${isActive('/tracker') ? 'text-[#f2c89b]' : 'text-stone-400'}`} />
-                <div className="flex flex-col text-left leading-tight">
-                  <span className="text-[11px] font-medium">Kanban</span>
-                  <span className="text-[11px] font-medium">Tracker</span>
-                </div>
+                <span className="text-[11.5px] font-medium">Tracker</span>
               </button>
 
               {/* 3. Referrals */}
@@ -241,10 +235,7 @@ export const Navbar: React.FC = () => {
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#f2c89b] animate-pulse" />
-                <div className="flex flex-col text-left leading-none font-bold">
-                  <span className="text-[10px]">AI</span>
-                  <span className="text-[10px]">Copilot</span>
-                </div>
+                <span className="text-[11.5px] font-bold">Copilot</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#f2c89b] ml-0.5"></span>
               </button>
             </nav>
