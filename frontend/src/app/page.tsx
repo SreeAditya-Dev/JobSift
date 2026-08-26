@@ -14,7 +14,7 @@ import { ReferralCard } from '@/components/referrals/ReferralCard';
 import { RequestReferralModal } from '@/components/referrals/RequestReferralModal';
 import {
   Coffee, Search, Sparkles, Briefcase, MessageSquare, Award,
-  Columns3, Bot, ArrowRight, ShieldCheck, CheckCircle2, TrendingUp,
+  Columns3, ArrowRight, ShieldCheck, CheckCircle2, TrendingUp,
   Zap, Users, Compass, ChevronRight
 } from 'lucide-react';
 
@@ -91,7 +91,7 @@ export default function HomePage() {
       {/* 1. HERO SECTION */}
       <section className="relative rounded-3xl overflow-hidden p-6 sm:p-12 lg:p-16 border border-border bg-gradient-to-b from-[#644a40]/10 via-secondary/15 to-card text-center space-y-6 shadow-sm">
         {/* Subtle decorative glow */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-secondary/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-80 h-80 bg-secondary/20 rounded-full blur-3xl pointer-events-none" />
 
         {/* Hero Pill */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-secondary/40 border border-secondary text-secondary-foreground text-xs font-bold shadow-2xs">
@@ -220,7 +220,7 @@ export default function HomePage() {
           {/* Pillar 4 */}
           <div className="p-6 rounded-2xl bg-card border border-border space-y-3 hover:border-primary/40 transition-all hover:shadow-md">
             <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
-              <Bot className="w-6 h-6" />
+              <Sparkles className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-base text-foreground">AI Career Copilot</h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
@@ -314,7 +314,7 @@ export default function HomePage() {
       </section>
 
       {/* 6. AI COPILOT CTA BANNER */}
-      <section className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#644a40] via-[#503a31] to-[#3a2923] text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
+      <section className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#4a362c] to-[#241a15] text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="space-y-3 text-center md:text-left max-w-xl">
           <span className="px-3 py-1 rounded-full bg-secondary/20 text-secondary text-xs font-bold uppercase tracking-wider border border-secondary/30 inline-flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" /> AI Career Engine

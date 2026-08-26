@@ -6,7 +6,7 @@ import { aiApi } from '@/lib/api';
 import { ResumeAnalysisResult } from '@/types';
 import {
   Sparkles, FileText, CheckCircle2, AlertCircle, ArrowRight,
-  TrendingUp, RefreshCw, Copy, Check, Bot, Award, Zap
+  TrendingUp, RefreshCw, Copy, Check, Award, Zap
 } from 'lucide-react';
 
 interface ResumeAnalyzerProps {
@@ -318,7 +318,7 @@ Senior Full-Stack Engineer @ CloudScale Technologies (2022 - Present)
                 {result.tailored_bullet_suggestions.map((item, idx) => (
                   <div key={idx} className="p-4 rounded-xl border border-border bg-muted/20 space-y-2.5">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400">❌ Original Bullet:</span>
+                      <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400">Original Bullet:</span>
                       <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded">
                         {item.impact_boost}
                       </span>
@@ -327,7 +327,7 @@ Senior Full-Stack Engineer @ CloudScale Technologies (2022 - Present)
 
                     <div className="flex items-center justify-between text-xs pt-1">
                       <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                        ✨ Optimized Impact Bullet:
+                        Optimized Impact Bullet:
                       </span>
                       <button
                         onClick={() => copyBullet(item.optimized, idx)}

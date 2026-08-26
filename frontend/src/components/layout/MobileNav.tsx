@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Briefcase, MessageSquare, Award, Columns3, Bot, Sparkles } from 'lucide-react';
+import { Briefcase, MessageSquare, Award, Columns3, Sparkles } from 'lucide-react';
 
 export const MobileNav: React.FC = () => {
   const pathname = usePathname();
@@ -13,7 +13,7 @@ export const MobileNav: React.FC = () => {
     { label: 'Discuss', href: '/community', icon: MessageSquare },
     { label: 'Referrals', href: '/referrals', icon: Award },
     { label: 'Tracker', href: '/tracker', icon: Columns3 },
-    { label: 'AI Copilot', href: '/ai-copilot', icon: Bot, isHighlight: true },
+    { label: 'AI Copilot', href: '/ai-copilot', icon: Sparkles, isHighlight: true },
   ];
 
   const isActive = (href: string) => {

@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { usersApi } from '@/lib/api';
 import { fireConfetti } from '@/lib/confetti';
 import {
-  User, Sparkles, Award, Briefcase, MapPin, Globe,
+  User, Award, Briefcase, MapPin, Globe,
   Code2, Share2, Save, CheckCircle2, ShieldCheck, Plus, X
 } from 'lucide-react';
 
@@ -92,8 +92,8 @@ export default function ProfilePage() {
 
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-secondary/30 text-secondary-foreground text-xs font-bold flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4" />
-            <span>⭐ {user?.karma_points || 240} Karma Points</span>
+            <Award className="w-4 h-4" />
+            <span>{user?.karma_points || 240} Karma Points</span>
           </div>
         </div>
       </div>

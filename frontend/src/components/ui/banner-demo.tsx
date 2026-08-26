@@ -24,7 +24,7 @@ function BannerWithLinkButtons() {
           />
           <div className="flex grow flex-col justify-between gap-3 md:flex-row md:items-center">
             <p className="text-xs sm:text-sm">
-              <span className="font-semibold text-primary">JobSift AI OS 2.0 is live!</span> Explore verified referrals, live salary intelligence, and AI resume matchmaking.
+              <span className="font-semibold text-primary">New:</span> Verified employee referrals, live salary benchmarks, and resume matching — all in one place.
             </p>
             <div className="flex gap-2 max-md:flex-wrap">
               <Button size="sm" className="text-xs h-7 px-2.5 rounded-full" onClick={() => router.push('/jobs')}>

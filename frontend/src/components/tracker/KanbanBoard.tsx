@@ -6,7 +6,7 @@ import { Application, ApplicationStatus } from '@/types';
 import { applicationsApi } from '@/lib/api';
 import {
   Columns3, Briefcase, MapPin, DollarSign, Calendar,
-  CheckCircle2, ArrowRight, ArrowLeft, Bot, MoreVertical,
+  CheckCircle2, ArrowRight, ArrowLeft, MoreVertical,
   Plus, Sparkles, MessageSquare, AlertCircle
 } from 'lucide-react';
 
@@ -20,7 +20,7 @@ const COLUMNS: { id: ApplicationStatus; title: string; color: string }[] = [
   { id: 'applied', title: 'Applied', color: 'border-blue-500/40 bg-blue-500/5 text-blue-600 dark:text-blue-400' },
   { id: 'screening', title: 'Recruiter Screen', color: 'border-purple-500/40 bg-purple-500/5 text-purple-600 dark:text-purple-400' },
   { id: 'interview', title: 'Tech / Onsite', color: 'border-amber-500/40 bg-amber-500/5 text-amber-600 dark:text-amber-400' },
-  { id: 'offer', title: 'Offer Extended 🎉', color: 'border-emerald-500/40 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400' },
+  { id: 'offer', title: 'Offer Extended', color: 'border-emerald-500/40 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400' },
   { id: 'rejected', title: 'Archived', color: 'border-rose-500/40 bg-rose-500/5 text-rose-600 dark:text-rose-400' },
 ];
 
@@ -195,7 +195,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ applications, onRefres
                             }
                             className="text-[11px] font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer"
                           >
-                            <Bot className="w-3 h-3" />
+                            <Sparkles className="w-3 h-3" />
                             <span>AI Mock Prep</span>
                           </button>
 

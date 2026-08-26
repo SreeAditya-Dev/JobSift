@@ -9,7 +9,7 @@ import { ReferralCard } from '@/components/referrals/ReferralCard';
 import { RequestReferralModal } from '@/components/referrals/RequestReferralModal';
 import {
   Award, ShieldCheck, Search, Plus, Filter,
-  CheckCircle2, Clock, XCircle, ArrowRight, Sparkles
+  CheckCircle2, Clock, XCircle, ArrowRight, Sparkles, X
 } from 'lucide-react';
 import { Suspense } from 'react';
 
@@ -68,9 +68,14 @@ function ReferralsContent() {
 
   useEffect(() => {
     fetchListings();
-    fetchMyRequests();
-    if (user?.role === 'employee' || user?.is_verified_employee) {
-      fetchIncomingRequests();
+    if (user) {
+      fetchMyRequests();
+      if (user.role === 'employee' || user.is_verified_employee) {
+        fetchIncomingRequests();
+      }
+    } else {
+      setMyRequests([]);
+      setIncomingRequests([]);
     }
   }, [selectedCategory, user]);
 
@@ -352,8 +357,8 @@ function ReferralsContent() {
                 <ShieldCheck className="w-5 h-5 text-emerald-600" />
                 <h3 className="font-bold text-base text-foreground">Offer Employee Referrals</h3>
               </div>
-              <button onClick={() => setIsCreateListingOpen(false)} className="p-1 text-muted-foreground hover:text-foreground">
-                ✕
+              <button onClick={() => setIsCreateListingOpen(false)} className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors cursor-pointer">
+                <X className="w-4 h-4" />
               </button>
             </div>
 

@@ -5,7 +5,7 @@ import { aiApi } from '@/lib/api';
 import { MockInterviewSession, InterviewQuestion, MockAnswerFeedback } from '@/types';
 import { fireConfetti } from '@/lib/confetti';
 import {
-  MessageSquare, Bot, Sparkles, Send, CheckCircle2,
+  MessageSquare, Sparkles, Send, CheckCircle2,
   AlertCircle, Award, Play, RotateCcw, ArrowRight,
   Clock, ShieldCheck, Zap
 } from 'lucide-react';
@@ -158,7 +158,7 @@ export const MockInterviewStudio: React.FC<MockInterviewStudioProps> = ({
         <div className="p-6 sm:p-8 rounded-2xl border border-border bg-card shadow-lg space-y-6">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-2xl bg-gradient-to-br from-primary to-[#3e2723] text-white shadow-md">
-              <Bot className="w-6 h-6" />
+              <Sparkles className="w-6 h-6" />
             </div>
             <div>
               <h2 className="text-xl font-black text-foreground">Interactive AI Mock Interview Studio</h2>
@@ -274,7 +274,7 @@ export const MockInterviewStudio: React.FC<MockInterviewStudioProps> = ({
               <h2 className="text-xl font-bold text-foreground leading-snug">{currentQ.question}</h2>
 
               <p className="text-xs text-muted-foreground italic bg-muted/40 p-3 rounded-xl border border-border/60">
-                💡 <strong>Evaluation Context:</strong> {currentQ.context}
+                <strong className="text-foreground/80 not-italic">Evaluation Context:</strong> {currentQ.context}
               </p>
 
               {/* Rubric Hints */}

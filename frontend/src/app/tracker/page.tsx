@@ -9,12 +9,12 @@ import { RoleGuard } from '@/components/auth/RoleGuard';
 import { useAuth } from '@/context/AuthContext';
 import {
   Columns3, Plus, Sparkles, TrendingUp, CheckCircle2,
-  Briefcase, ArrowRight, Bot
+  Briefcase, ArrowRight
 } from 'lucide-react';
 
 export default function TrackerPage() {
   const router = useRouter();
-  const { openAuthModal } = useAuth();
+  const { user, openAuthModal } = useAuth();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,8 +31,8 @@ export default function TrackerPage() {
   };
 
   useEffect(() => {
-    fetchPipeline();
-  }, []);
+    if (user) fetchPipeline();
+  }, [user]);
 
   const totalApps = applications.length;
   const activeInterviews = applications.filter((a) => a.status === 'screening' || a.status === 'interview').length;
@@ -83,7 +83,7 @@ export default function TrackerPage() {
           </div>
 
           <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-1 shadow-xs">
-            <div className="text-xs text-emerald-700 dark:text-emerald-400 font-bold">Offers Extended 🎉</div>
+            <div className="text-xs text-emerald-700 dark:text-emerald-400 font-bold">Offers Extended</div>
             <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400">{offersReceived}</div>
             <div className="text-[10px] text-emerald-600">Ready for negotiation</div>
           </div>
@@ -95,7 +95,7 @@ export default function TrackerPage() {
               onClick={() => router.push('/ai-copilot?tab=interview')}
               className="text-[10px] text-primary hover:underline font-bold flex items-center gap-1 cursor-pointer"
             >
-              <Bot className="w-3 h-3" /> Practice Live →
+              <Sparkles className="w-3 h-3" /> Practice Live →
             </button>
           </div>
         </div>

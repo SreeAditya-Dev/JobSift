@@ -7,7 +7,7 @@ import { jobsApi } from '@/lib/api';
 import {
   X, Briefcase, MapPin, DollarSign, Sparkles, Award, MessageSquare,
   Bookmark, BookmarkCheck, CheckCircle2, AlertCircle, ArrowRight,
-  ExternalLink, Share2, Bot, Users, ShieldCheck, ChevronRight
+  ExternalLink, Share2, Star, Users, ShieldCheck, ChevronRight
 } from 'lucide-react';
 
 interface JobDetailModalProps {
@@ -175,7 +175,7 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
               }}
               className="px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
             >
-              <Bot className="w-3.5 h-3.5" />
+              <MessageSquare className="w-3.5 h-3.5" />
               <span>Mock Interview</span>
             </button>
 
@@ -342,17 +342,17 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-3 rounded-xl bg-muted border border-border text-center">
                   <div className="text-[10px] text-muted-foreground uppercase font-semibold">Overall Rating</div>
-                  <div className="text-xl font-black text-foreground mt-0.5">4.8 ★</div>
+                  <div className="text-xl font-black text-foreground mt-0.5 flex items-center justify-center gap-1">4.8 <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /></div>
                   <div className="text-[10px] text-emerald-600">Top 5% Tech Tier</div>
                 </div>
                 <div className="p-3 rounded-xl bg-muted border border-border text-center">
                   <div className="text-[10px] text-muted-foreground uppercase font-semibold">Work-Life Balance</div>
-                  <div className="text-xl font-black text-foreground mt-0.5">4.5 ★</div>
+                  <div className="text-xl font-black text-foreground mt-0.5 flex items-center justify-center gap-1">4.5 <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /></div>
                   <div className="text-[10px] text-muted-foreground">Flexible & Remote</div>
                 </div>
                 <div className="p-3 rounded-xl bg-muted border border-border text-center">
                   <div className="text-[10px] text-muted-foreground uppercase font-semibold">Engineering Craft</div>
-                  <div className="text-xl font-black text-foreground mt-0.5">4.9 ★</div>
+                  <div className="text-xl font-black text-foreground mt-0.5 flex items-center justify-center gap-1">4.9 <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /></div>
                   <div className="text-[10px] text-primary">High Velocity</div>
                 </div>
                 <div className="p-3 rounded-xl bg-muted border border-border text-center">

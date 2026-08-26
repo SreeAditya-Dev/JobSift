@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Briefcase, MessageSquare, Award, Bot, X, ArrowRight, CornerDownLeft } from 'lucide-react';
+import { Search, Briefcase, MessageSquare, Award, Sparkles, X, ArrowRight, CornerDownLeft } from 'lucide-react';
 import { jobsApi, communityApi, referralsApi } from '@/lib/api';
 import { Job, CommunityPost, ReferralListing } from '@/types';
 
@@ -116,7 +116,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
                 className="flex items-center gap-2 p-2.5 rounded-lg border border-border/80 hover:border-primary/50 hover:bg-accent/50 text-left transition-all group cursor-pointer"
               >
                 <div className="p-1.5 rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <Bot className="w-4 h-4" />
+                  <Sparkles className="w-4 h-4" />
                 </div>
                 <div>
                   <div className="font-medium text-foreground text-xs">ATS Resume Scanner</div>

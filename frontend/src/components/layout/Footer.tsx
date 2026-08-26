@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Coffee, ShieldCheck, Cpu, Code2, Sparkles, Heart } from 'lucide-react';
+import { Compass, ShieldCheck } from 'lucide-react';
 
 const TwitterIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -25,135 +25,70 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const FOOTER_LINKS = [
+  { label: 'Jobs', href: '/jobs' },
+  { label: 'Referrals', href: '/referrals' },
+  { label: 'Community', href: '/community' },
+  { label: 'Salaries', href: '/salaries' },
+  { label: 'AI Copilot', href: '/ai-copilot' },
+];
+
 export const Footer: React.FC = () => {
   return (
-    <div className="px-4 sm:px-6 lg:px-8 pb-6 mt-20">
-      <footer className="bg-card border border-border rounded-[2.5rem] pt-16 pb-8 text-sm transition-colors relative overflow-hidden shadow-sm max-w-7xl mx-auto">
-        {/* Decorative gradient blur in background */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-24 bg-primary/5 blur-[100px] pointer-events-none" />
-
-        <div className="px-8 sm:px-12 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-border/60">
-            {/* Brand Col */}
-            <div className="md:col-span-1 space-y-5">
-              <Link href="/" className="flex items-center gap-2.5 inline-flex focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#644a40] to-[#3e2723] dark:from-[#ffe0c2] dark:to-[#ffdfb5] flex items-center justify-center text-white dark:text-[#393028] shadow-sm">
-                  <Coffee className="w-5 h-5" />
-                </div>
-                <span className="font-bold text-lg tracking-tight text-foreground">
-                  Job<span className="text-primary font-black">Sift</span>
-                </span>
-              </Link>
-              <p className="text-sm text-muted-foreground leading-relaxed pr-4">
-                The unified one-stop career operating system. Connecting job discovery, insider debriefs, and an interactive AI copilot into a cohesive ecosystem.
-              </p>
-              <div className="flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 dark:bg-emerald-500/10 py-1.5 px-3 rounded-full w-fit">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Zero Spam • Verified Data</span>
+    <footer className="mt-20 border-t border-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          {/* Left: brand + primary links */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+            <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg">
+              <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-primary-foreground">
+                <Compass className="w-3.5 h-3.5" strokeWidth={2.2} />
               </div>
-            </div>
+              <span className="font-extrabold text-sm tracking-tight text-foreground">
+                Job<span className="text-primary font-black">Sift</span>
+              </span>
+            </Link>
 
-            {/* Navigation Links */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold text-foreground">Platform</h4>
-              <ul className="space-y-2.5 text-sm text-muted-foreground">
-                {[
-                  { label: 'Explore Opportunities', href: '/jobs' },
-                  { label: 'Insider Debriefs', href: '/community' },
-                  { label: 'Referral Marketplace', href: '/referrals' },
-                  { label: 'Application Tracker', href: '/tracker' },
-                  { label: 'Salary Intelligence', href: '/salaries' },
-                ].map((link) => (
-                  <li key={link.href}>
-                    <Link 
-                      href={link.href} 
-                      className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* AI Intelligence Suite */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold text-foreground flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-primary" /> AI Career Suite
-              </h4>
-              <ul className="space-y-2.5 text-sm text-muted-foreground">
-                {[
-                  { label: 'ATS Resume Scanner', href: '/ai-copilot?tab=resume' },
-                  { label: 'AI Mock Interviewer', href: '/ai-copilot?tab=interview' },
-                  { label: 'Salary Negotiator', href: '/ai-copilot?tab=salary' },
-                  { label: 'Cover Letter Generator', href: '/ai-copilot?tab=cover-letter' },
-                ].map((link) => (
-                  <li key={link.href}>
-                    <Link 
-                      href={link.href} 
-                      className="hover:text-primary hover:translate-x-1 transition-all duration-200 inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Architecture & Stack */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold text-foreground flex items-center gap-1.5">
-                <Cpu className="w-4 h-4 text-primary" /> Architecture
-              </h4>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li className="flex items-center gap-2 group cursor-default">
-                  <Code2 className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
-                  <span>Next.js 15 App Router</span>
-                </li>
-                <li className="flex items-center gap-2 group cursor-default">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-transform" />
-                  <span>FastAPI Python Engine</span>
-                </li>
-                <li className="flex items-center gap-2 group cursor-default">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)] group-hover:scale-110 transition-transform" />
-                  <span>PostgreSQL DB + SQLAlchemy</span>
-                </li>
-                <li className="flex items-center gap-2 group cursor-default">
-                  <span className="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.4)] group-hover:scale-110 transition-transform" />
-                  <span>Tailwind CSS v4</span>
-                </li>
-              </ul>
-            </div>
+            <nav className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              {FOOTER_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <p className="text-sm text-muted-foreground order-2 md:order-1">
-              © {new Date().getFullYear()} JobSift. Engineered for the modern job seeker.
-            </p>
-            
-            {/* Social Links */}
-            <div className="flex items-center gap-4 order-1 md:order-2">
-              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground hover:-translate-y-0.5 transition-all duration-200" aria-label="Twitter">
-                <TwitterIcon className="w-5 h-5" />
+          {/* Right: socials + copyright */}
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
+              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors" aria-label="Twitter">
+                <TwitterIcon className="w-3.5 h-3.5" />
               </Link>
-              <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground hover:-translate-y-0.5 transition-all duration-200" aria-label="GitHub">
-                <GithubIcon className="w-5 h-5" />
+              <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors" aria-label="GitHub">
+                <GithubIcon className="w-3.5 h-3.5" />
               </Link>
-              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground hover:-translate-y-0.5 transition-all duration-200" aria-label="LinkedIn">
-                <LinkedinIcon className="w-5 h-5" />
+              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors" aria-label="LinkedIn">
+                <LinkedinIcon className="w-3.5 h-3.5" />
               </Link>
             </div>
 
-            <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground order-3 md:order-3 bg-secondary/30 px-3 py-1.5 rounded-full">
-              <span>Brewed with</span>
-              <Heart className="w-4 h-4 text-rose-500 fill-rose-500 animate-pulse" />
-              <span>& AI Precision</span>
-            </div>
+            <span className="hidden sm:block w-px h-4 bg-border" />
+
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
+              © {new Date().getFullYear()} JobSift
+            </span>
           </div>
         </div>
-      </footer>
-    </div>
+
+        <div className="mt-5 pt-5 border-t border-border/60 flex items-center gap-1.5 text-xs text-muted-foreground">
+          <ShieldCheck className="w-3.5 h-3.5 text-primary shrink-0" />
+          <span>Zero spam, verified employee and salary data.</span>
+        </div>
+      </div>
+    </footer>
   );
 };
-

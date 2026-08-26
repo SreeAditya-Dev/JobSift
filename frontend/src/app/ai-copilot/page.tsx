@@ -8,7 +8,7 @@ import { SalaryNegotiator } from '@/components/ai/SalaryNegotiator';
 import { useAuth } from '@/context/AuthContext';
 import { aiApi } from '@/lib/api';
 import {
-  Bot, Sparkles, FileText, MessageSquare, TrendingUp,
+  Sparkles, FileText, MessageSquare, TrendingUp,
   Award, Copy, Check, Send, Zap
 } from 'lucide-react';
 import { Suspense } from 'react';
@@ -93,7 +93,7 @@ function AiCopilotContent() {
         </div>
 
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/60 px-3 py-1.5 rounded-xl border border-border">
-          <Bot className="w-4 h-4 text-primary" />
+          <Sparkles className="w-4 h-4 text-primary" />
           <span>Powered by JobSift AI Engine</span>
         </div>
       </div>

@@ -8,7 +8,7 @@ import { fireConfetti } from '@/lib/confetti';
 import {
   Briefcase, Plus, Users, Sparkles, CheckCircle2,
   AlertCircle, ArrowRight, DollarSign, MapPin, Search,
-  Bot, Clock, ShieldCheck, Filter
+  Clock, ShieldCheck, Filter, X
 } from 'lucide-react';
 
 export const RecruiterDashboard: React.FC = () => {
@@ -268,7 +268,7 @@ export const RecruiterDashboard: React.FC = () => {
                         onClick={() => updateCandidateStatus(app.id, 'offer')}
                         className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs cursor-pointer"
                       >
-                        Extend Offer 🎉
+                        Extend Offer
                       </button>
                     </div>
                   </div>
@@ -290,8 +290,8 @@ export const RecruiterDashboard: React.FC = () => {
                 </span>
                 <h3 className="font-bold text-base text-foreground">Post a New Opportunity</h3>
               </div>
-              <button onClick={() => setIsPostingJob(false)} className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground">
-                ✕
+              <button onClick={() => setIsPostingJob(false)} className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors cursor-pointer">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -374,7 +374,7 @@ export const RecruiterDashboard: React.FC = () => {
                     disabled={isGeneratingJD || !newTitle.trim()}
                     className="text-primary hover:underline text-[11px] font-semibold flex items-center gap-1 cursor-pointer"
                   >
-                    <Bot className="w-3.5 h-3.5" />
+                    <Sparkles className="w-3.5 h-3.5" />
                     <span>{isGeneratingJD ? 'Generating JD...' : 'Auto-Generate with AI'}</span>
                   </button>
                 </div>

@@ -7,7 +7,7 @@ import { applicationsApi, aiApi } from '@/lib/api';
 import { fireConfetti } from '@/lib/confetti';
 import {
   X, Briefcase, Sparkles, CheckCircle2, FileText, Send,
-  Bot, AlertCircle, ArrowRight
+  AlertCircle, ArrowRight
 } from 'lucide-react';
 
 interface ApplyModalProps {
@@ -164,7 +164,7 @@ export const ApplyModal: React.FC<ApplyModalProps> = ({ job, isOpen, onClose, on
                   disabled={isGeneratingCover}
                   className="text-primary hover:underline text-[11px] font-semibold flex items-center gap-1 cursor-pointer"
                 >
-                  <Bot className="w-3.5 h-3.5" />
+                  <Sparkles className="w-3.5 h-3.5" />
                   <span>{isGeneratingCover ? 'Brewing Tailored Letter...' : 'Generate with AI'}</span>
                 </button>
               </div>

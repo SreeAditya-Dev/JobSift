@@ -4,9 +4,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import {
-  Briefcase, MessageSquare, Award, Columns3, Bot,
+  Briefcase, MessageSquare, Award, Columns3,
   TrendingUp, Search, Sun, Moon, Bell, Menu, X, User, LogOut,
-  ChevronDown, Sparkles, Plus, CheckCircle2,
+  ChevronDown, Sparkles, Plus, CheckCircle2, Star,
   ArrowRight, ShieldCheck, Compass, LogIn, UserPlus
 } from 'lucide-react';
 import { GlobalSearchModal } from '@/components/common/GlobalSearchModal';
@@ -239,7 +239,9 @@ export const Navbar: React.FC = () => {
                             <ShieldCheck className="w-3 h-3 text-emerald-400" />
                             {user.role} {user.company ? `(${user.company})` : ''}
                           </span>
-                          <span className="text-amber-400">⭐ {user.karma_points} Karma</span>
+                          <span className="text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                            <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> {user.karma_points} Karma
+                          </span>
                         </div>
                       </div>
 
