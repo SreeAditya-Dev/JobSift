@@ -18,13 +18,9 @@ def get_current_user(
 ) -> User:
     """Retrieve and authenticate current logged-in user from Bearer JWT token"""
     if not credentials:
-        # Default fallback to candidate persona (Alex Rivera) for seamless testing if no header is supplied
-        user = db.query(User).filter(User.email == "alex.rivera@example.com").first()
-        if user:
-            return user
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication required",
+            detail="Authentication required. Please log in.",
             headers={"WWW-Authenticate": "Bearer"},
         )
 

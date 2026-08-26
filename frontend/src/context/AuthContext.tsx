@@ -33,7 +33,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(INITIAL_USER);
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -62,12 +62,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const me = await authApi.getMe();
           setUser(me);
         } catch {
-          // Keep default mock persona if offline
-          setUser(INITIAL_USER);
+          // Token expired or invalid, clear it
+          localStorage.removeItem('jobsift_token');
+          setToken(null);
+          setUser(null);
         }
       } else {
-        // Set default candidate persona for quick judge evaluation
-        setUser(INITIAL_USER);
+        setUser(null);
       }
       setIsLoading(false);
     };
