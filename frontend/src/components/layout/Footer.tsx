@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
                 <Coffee className="w-4 h-4" />
               </div>
               <span className="font-bold text-base tracking-tight text-foreground">
-                Career<span className="text-primary font-black">Brew</span>
+                Job<span className="text-primary font-black">Sift</span>
               </span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed">
@@ -119,7 +119,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© 2026 CareerBrew. Engineered for the Modern Job Seeker.</p>
+          <p>© 2026 JobSift. Engineered for the Modern Job Seeker.</p>
           <div className="flex items-center gap-1 text-muted-foreground">
             <span>Brewed with</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />

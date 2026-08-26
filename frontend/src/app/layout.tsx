@@ -8,9 +8,9 @@ import { Footer } from '@/components/layout/Footer';
 import { MobileNav } from '@/components/layout/MobileNav';
 
 export const metadata: Metadata = {
-  title: 'CareerBrew | The Unified One-Stop Career Operating System',
+  title: 'JobSift | The Unified One-Stop Career Operating System',
   description:
-    'Rethinking the modern job search. Unified job discovery, insider debriefs, verified referral matchmaking, and an interactive AI copilot in a cohesive caffeine-styled platform.',
+    'Rethinking the modern job search. Unified job discovery, insider debriefs, verified referral matchmaking, and an interactive AI copilot in a cohesive modern platform.',
 };
 
 export default function RootLayout({

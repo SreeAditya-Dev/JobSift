@@ -1,5 +1,5 @@
 """
-CareerBrew - High-Performance Configuration Settings
+JobSift - High-Performance Configuration Settings
 """
 from typing import List
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -8,10 +8,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    PROJECT_NAME: str = "CareerBrew API"
+    PROJECT_NAME: str = "JobSift API"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api"
-    SECRET_KEY: str = "careerbrew-super-secret-jwt-token-key-2026-caffeine-production"
+    SECRET_KEY: str = "jobsift-super-secret-jwt-token-key-2026-caffeine-production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days for development convenience
 
@@ -44,7 +44,7 @@ class Settings(BaseSettings):
                     f"postgresql://{self.PGUSER}:{self.PGPASSWORD}@{self.PGHOST}:{self.PGPORT}/{self.PGDATABASE}?sslmode={self.PGSSLMODE}"
                 )
             else:
-                self.DATABASE_URL = "sqlite:///./careerbrew.db"
+                self.DATABASE_URL = "sqlite:///./jobsift.db"
 
 
 settings = Settings()

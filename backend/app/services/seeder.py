@@ -1,5 +1,5 @@
 """
-CareerBrew Database Seeder
+JobSift Database Seeder
 Seeds realistic, rich demonstration data including users, job openings, community threads,
 referral listings, applications in various pipeline stages, and salary intelligence.
 """
@@ -19,7 +19,7 @@ def seed_database_if_empty(db: Session):
     if user_count > 0:
         return  # Database already seeded
 
-    print("--- Seeding CareerBrew Database with rich initial data ---")
+    print("--- Seeding JobSift Database with rich initial data ---")
 
     # 1. Create Core Users
     # Candidate Persona (Alex Rivera)
@@ -333,7 +333,7 @@ B.S. in Computer Science - University of California, Berkeley (2015 - 2019)
         status="screening",
         match_score=88,
         resume_text=alex.resume_text,
-        candidate_notes="Recruiter reached out via CareerBrew message. Phone chat scheduled.",
+        candidate_notes="Recruiter reached out via JobSift message. Phone chat scheduled.",
         interview_date=datetime.utcnow() + timedelta(days=1),
         applied_at=datetime.utcnow() - timedelta(days=4)
     )
@@ -344,7 +344,7 @@ B.S. in Computer Science - University of California, Berkeley (2015 - 2019)
         status="offer",
         match_score=96,
         salary_offered=185000,
-        candidate_notes="Received formal offer package! Negotiating base + equity split using CareerBrew AI Negotiation playbook.",
+        candidate_notes="Received formal offer package! Negotiating base + equity split using JobSift AI Negotiation playbook.",
         applied_at=datetime.utcnow() - timedelta(days=14)
     )
 
@@ -451,7 +451,7 @@ Final Accepted Offer:
 - Total Comp Year 1: $375,000
 
 **What worked:**
-1. Kept communication polite, enthusiastic, and anchored on third-party market data from CareerBrew / Levels.
+1. Kept communication polite, enthusiastic, and anchored on third-party market data from JobSift / Levels.
 2. Never said "I need more money"—instead framed it as: "Given my background in high-throughput API architecture and multiple competing discussions, I am looking for a total compensation target of $370k to sign today."
 3. Waited until I had all written feedback before discussing numbers.
 
@@ -532,4 +532,4 @@ If you want your resume reviewed, drop your bullet points below and I'll give ho
     db.add_all(salaries)
     db.commit()
 
-    print("--- CareerBrew Database successfully seeded with full realistic dataset ---")
+    print("--- JobSift Database successfully seeded with full realistic dataset ---")

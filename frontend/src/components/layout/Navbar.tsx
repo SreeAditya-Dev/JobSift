@@ -51,7 +51,7 @@ export const Navbar: React.FC = () => {
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-lg tracking-tight leading-none text-foreground flex items-center gap-1">
-                  Career<span className="text-primary font-black">Brew</span>
+                  Job<span className="text-primary font-black">Sift</span>
                 </span>
                 <span className="text-[10px] text-muted-foreground font-medium tracking-wide">
                   The Unified Career OS

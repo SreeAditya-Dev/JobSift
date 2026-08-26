@@ -1,5 +1,5 @@
 /**
- * CareerBrew Global TypeScript Type Definitions
+ * JobSift Global TypeScript Type Definitions
  */
 
 export type UserRole = 'candidate' | 'recruiter' | 'employee';

@@ -1,5 +1,5 @@
 """
-CareerBrew FastAPI Application Entrypoint
+JobSift FastAPI Application Entrypoint
 Unified Career Operating System & AI Job Seeker Platform
 """
 from contextlib import asynccontextmanager
@@ -24,7 +24,7 @@ from app.api.salary import router as salary_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifecycle manager: Create tables and auto-seed sample dataset on start"""
-    print("🚀 Initializing CareerBrew Engine database schema...")
+    print("🚀 Initializing JobSift Engine database schema...")
     Base.metadata.create_all(bind=engine)
     
     # Auto-seed
@@ -35,11 +35,11 @@ async def lifespan(app: FastAPI):
         db.close()
     
     yield
-    print("🛑 Shutting down CareerBrew API service...")
+    print("🛑 Shutting down JobSift API service...")
 
 
 app = FastAPI(
-    title="CareerBrew API",
+    title="JobSift API",
     description="The Unified One-Stop Platform & AI Copilot for the Modern Job Seeker",
     version="1.0.0",
     lifespan=lifespan
@@ -68,7 +68,7 @@ app.include_router(salary_router, prefix=settings.API_V1_STR)
 @app.get("/")
 def root():
     return {
-        "platform": "CareerBrew - Unified Career OS",
+        "platform": "JobSift - Unified Career OS",
         "status": "online",
         "docs_url": "/docs",
         "version": settings.VERSION
@@ -77,4 +77,5 @@ def root():
 
 @app.get("/api/health")
 def health_check():
-    return {"status": "healthy", "service": "CareerBrew FastAPI Engine"}
+    return {"status": "healthy", "service": "JobSift FastAPI Engine"}
+

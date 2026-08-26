@@ -1,5 +1,5 @@
 """
-SQLAlchemy Data Models for CareerBrew
+SQLAlchemy Data Models for JobSift
 """
 from datetime import datetime
 from sqlalchemy import (

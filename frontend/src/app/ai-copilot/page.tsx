@@ -94,7 +94,7 @@ function AiCopilotContent() {
 
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/60 px-3 py-1.5 rounded-xl border border-border">
           <Bot className="w-4 h-4 text-primary" />
-          <span>Powered by CareerBrew AI Engine</span>
+          <span>Powered by JobSift AI Engine</span>
         </div>
       </div>
 

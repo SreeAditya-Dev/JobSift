@@ -1,5 +1,5 @@
 /**
- * CareerBrew Seed / Fallback Dataset
+ * JobSift Seed / Fallback Dataset
  * Used for instant rendering and resilient offline fallback.
  */
 import { User, Job, Application, CommunityPost, ReferralListing, SalaryReport } from '@/types';
@@ -345,7 +345,7 @@ Final Accepted Offer:
 - Total Comp Year 1: $375,000
 
 **What worked:**
-1. Kept communication polite, enthusiastic, and anchored on third-party market data from CareerBrew / Levels.
+1. Kept communication polite, enthusiastic, and anchored on third-party market data from JobSift / Levels.
 2. Never said "I need more money"—instead framed it as: "Given my background in high-throughput API architecture and multiple competing discussions, I am looking for a total compensation target of $370k to sign today."
 3. Waited until I had all written feedback before discussing numbers.
 

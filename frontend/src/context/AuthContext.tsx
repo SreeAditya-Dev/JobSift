@@ -35,7 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Initialize auth state
   useEffect(() => {
     const initAuth = async () => {
-      const storedToken = localStorage.getItem('careerbrew_token');
+      const storedToken = localStorage.getItem('jobsift_token');
       if (storedToken) {
         setToken(storedToken);
         try {
@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       const res = await authApi.login(email, password);
-      localStorage.setItem('careerbrew_token', res.access_token);
+      localStorage.setItem('jobsift_token', res.access_token);
       setToken(res.access_token);
       setUser(res.user);
     } catch (err) {
@@ -74,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       const res = await authApi.register(userData);
-      localStorage.setItem('careerbrew_token', res.access_token);
+      localStorage.setItem('jobsift_token', res.access_token);
       setToken(res.access_token);
       setUser(res.user);
     } catch (err) {
@@ -91,7 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    localStorage.removeItem('careerbrew_token');
+    localStorage.removeItem('jobsift_token');
     setToken(null);
     setUser(null);
   };
@@ -100,7 +100,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       const res = await authApi.switchDemoPersona(role);
-      localStorage.setItem('careerbrew_token', res.access_token);
+      localStorage.setItem('jobsift_token', res.access_token);
       setToken(res.access_token);
       setUser(res.user);
     } catch {

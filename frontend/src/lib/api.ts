@@ -1,5 +1,5 @@
 /**
- * CareerBrew API Client
+ * JobSift API Client
  * Connects to Python FastAPI backend at http://localhost:8000/api
  * Includes smart resilient fallbacks for offline development/preview.
  */
@@ -9,7 +9,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/a
 /** Helper to get stored auth token */
 export function getAuthToken(): string | null {
   if (typeof window === 'undefined') return null;
-  return localStorage.getItem('careerbrew_token');
+  return localStorage.getItem('jobsift_token');
 }
 
 /** Base fetch wrapper with auth header injection */
@@ -37,7 +37,7 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
 
     return await res.json();
   } catch (err: any) {
-    console.warn(`[CareerBrew API Warning on ${endpoint}]:`, err.message);
+    console.warn(`[JobSift API Warning on ${endpoint}]:`, err.message);
     throw err;
   }
 }

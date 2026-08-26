@@ -21,7 +21,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   useEffect(() => {
     // Check localStorage or system preference
-    const savedTheme = localStorage.getItem('careerbrew_theme') as Theme | null;
+    const savedTheme = localStorage.getItem('jobsift_theme') as Theme | null;
     if (savedTheme) {
       setThemeState(savedTheme);
       applyThemeClass(savedTheme);
@@ -42,7 +42,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const setTheme = (t: Theme) => {
     setThemeState(t);
-    localStorage.setItem('careerbrew_theme', t);
+    localStorage.setItem('jobsift_theme', t);
     applyThemeClass(t);
   };
 

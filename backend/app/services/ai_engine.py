@@ -1,5 +1,5 @@
 """
-CareerBrew AI Engine - Intelligent ATS Matcher, Mock Interviewer & Career Copilot
+JobSift AI Engine - Intelligent ATS Matcher, Mock Interviewer & Career Copilot
 Provides rule-based + heuristic semantic parsing & AI generation logic with high accuracy and resilience.
 """
 import re

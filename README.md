@@ -1,4 +1,4 @@
-# ☕ CareerBrew — The Unified One-Stop Career Operating System
+# ☕ JobSift — The Unified One-Stop Career Operating System
 
 > **Rethinking the modern job search:** Bringing together job discovery, insider culture debriefs, verified referral matchmaking, an interactive application Kanban pipeline, and an AI Career Copilot into a unified ecosystem built with **Next.js 15 (TypeScript, Tailwind CSS v4)** and a high-performance **Python FastAPI** backend.
 
@@ -15,8 +15,8 @@ In today's hyper-competitive job market, candidates and professionals face sever
 5. **Tracking:** Maintaining separate Notion boards or Google Sheets to track application pipelines.
 6. **Preparation:** Copy-pasting resumes into ChatGPT for generic bullet rewrites.
 
-### The CareerBrew Solution: A Unified Career OS
-CareerBrew unifies these disconnected tools into an **interconnected context graph** styled with a warm **Caffeine Design System**:
+### The JobSift Solution: A Unified Career OS
+JobSift unifies these disconnected tools into an **interconnected context graph** styled with a warm **Caffeine Design System**:
 - When viewing a job opening, you don't just see a static description—you immediately see **linked insider interview debriefs**, **verified employee referrers**, **real-time AI skill-gap radar**, and a **1-click tailored AI mock interview launcher**.
 - Verified employees offer referrals with transparent monthly quotas and anti-spam karma escrows.
 - Candidates track applications seamlessly through a visual **Kanban pipeline** with real-time status updates and salary offer comparison tools.
@@ -27,7 +27,7 @@ CareerBrew unifies these disconnected tools into an **interconnected context gra
 
 ```
                    ┌───────────────────────────────────────────────┐
-                   │          CAREERBREW LIVING CANVAS             │
+                   │           JOBSIFT LIVING CANVAS               │
                    ├───────────────────────────────────────────────┤
                    │  1. Unified Job Specifications & Tech Stack   │
                    │  2. AI Match Radar & ATS Keyword Gap Analysis │
@@ -115,7 +115,7 @@ flowchart TD
 
 ## 🎨 Caffeine Design System
 
-CareerBrew features the custom **Caffeine Theme** (`@import "tailwindcss";` and `@theme inline`):
+JobSift features the custom **Caffeine Theme** (`@import "tailwindcss";` and `@theme inline`):
 * **Warm Coffee Tones:** `--primary: #644a40` (Dark Roast Brown), `--secondary: #ffdfb5` (Warm Foam Latte), `--background: #f9f9f9` / Dark Mode `--background: #111111`.
 * **Responsive Layout:** Optimized for Mobile Drawer & Bottom Dock (<768px), Tablet Grid, and Laptop/4K Desktop multi-pane layouts.
 * **Glassmorphism & Micro-animations:** Subtle backdrops, interactive hover states, and celebratory confetti effects.
@@ -124,7 +124,7 @@ CareerBrew features the custom **Caffeine Theme** (`@import "tailwindcss";` and 
 
 ## 🔑 Test Credentials & Demo Personas (1-Click Fast Switch)
 
-CareerBrew includes a top **Evaluator Fast-Switch Banner** to test different user personas instantly without logging in and out:
+JobSift includes a top **Evaluator Fast-Switch Banner** to test different user personas instantly without logging in and out:
 
 | Persona | Role | Email | Password | What to Test |
 | :--- | :--- | :--- | :--- | :--- |
@@ -166,7 +166,7 @@ cd backend
 # Run FastAPI server
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
-*The database (`careerbrew.db`) will automatically initialize and seed with realistic sample jobs, users, community posts, referrals, and salary benchmarks on first launch!*
+*The database (`neondb` / `jobsift.db`) will automatically initialize and seed with realistic sample jobs, users, community posts, referrals, and salary benchmarks on first launch!*
 
 #### 2. Start Next.js Frontend
 ```bash

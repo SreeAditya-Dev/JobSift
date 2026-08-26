@@ -177,10 +177,10 @@ export default function HomePage() {
         <div className="text-center space-y-2 max-w-2xl mx-auto">
           <span className="text-xs font-bold text-primary uppercase tracking-wider">The Innovation</span>
           <h2 className="text-2xl sm:text-3xl font-black text-foreground">
-            What CareerBrew Does That Traditional Platforms Can't
+            What JobSift Does That Traditional Platforms Can't
           </h2>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Traditional job boards keep applications, community discussions, employee referrals, and interview prep in isolated silos. CareerBrew ties them into a single interconnected graph.
+          <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
+            Traditional job boards keep applications, community discussions, employee referrals, and interview prep in isolated silos. JobSift ties them into a single interconnected graph.
           </p>
         </div>
 

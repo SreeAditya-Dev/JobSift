@@ -1,5 +1,5 @@
 """
-Pydantic Schemas for CareerBrew API Request/Response Validation
+Pydantic Schemas for JobSift API Request/Response Validation
 """
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List, Any
