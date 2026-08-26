@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { salariesApi } from '@/lib/api';
 import { SalaryReport } from '@/types';
-import { MOCK_SALARIES } from '@/lib/mockData';
 import {
   TrendingUp, DollarSign, Search, ShieldCheck,
   Building, MapPin, Sparkles, Award, ArrowRight
@@ -12,7 +11,7 @@ import {
 
 export default function SalariesPage() {
   const router = useRouter();
-  const [salaries, setSalaries] = useState<SalaryReport[]>(MOCK_SALARIES);
+  const [salaries, setSalaries] = useState<SalaryReport[]>([]);
   const [summary, setSummary] = useState({
     average_total_comp: 371000,
     max_total_comp: 580000,
@@ -29,15 +28,8 @@ export default function SalariesPage() {
         setSalaries(data.reports);
         setSummary(data.summary);
       }
-    } catch {
-      let filtered = [...MOCK_SALARIES];
-      if (companyQuery) {
-        filtered = filtered.filter((s) => s.company.toLowerCase().includes(companyQuery.toLowerCase()));
-      }
-      if (titleQuery) {
-        filtered = filtered.filter((s) => s.title.toLowerCase().includes(titleQuery.toLowerCase()));
-      }
-      setSalaries(filtered);
+    } catch (error) {
+      console.error("Failed to fetch salaries:", error);
     }
   };
 

@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { jobsApi, applicationsApi } from '@/lib/api';
 import { Job, Application } from '@/types';
-import { MOCK_JOBS } from '@/lib/mockData';
 import { fireConfetti } from '@/lib/confetti';
 import {
   Briefcase, Plus, Users, Sparkles, CheckCircle2,
@@ -14,7 +13,7 @@ import {
 
 export const RecruiterDashboard: React.FC = () => {
   const { user } = useAuth();
-  const [jobs, setJobs] = useState<Job[]>(MOCK_JOBS);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJobId, setSelectedJobId] = useState<number>(1);
   const [applicants, setApplicants] = useState<Application[]>([]);
   const [isPostingJob, setIsPostingJob] = useState(false);
@@ -39,53 +38,8 @@ export const RecruiterDashboard: React.FC = () => {
   useEffect(() => {
     applicationsApi.getJobApplicants(selectedJobId).then((data) => {
       setApplicants(data);
-    }).catch(() => {
-      // Fallback applicants for demo
-      setApplicants([
-        {
-          id: 1,
-          job_id: selectedJobId,
-          user_id: 1,
-          status: 'interview',
-          match_score: 94,
-          resume_text: 'Alex Rivera - Senior Full-Stack Engineer with 5+ years building Next.js and FastAPI systems. Reduced latency by 40%.',
-          cover_letter: 'Excited to contribute to Stripe developer platform infrastructure.',
-          applied_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
-          updated_at: new Date().toISOString(),
-          user: {
-            id: 1,
-            email: 'alex.rivera@example.com',
-            full_name: 'Alex Rivera',
-            role: 'candidate',
-            headline: 'Senior Full-Stack Engineer | React, Next.js, Python, System Design',
-            karma_points: 240,
-            avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-            location: 'San Francisco, CA',
-            created_at: new Date().toISOString(),
-          }
-        },
-        {
-          id: 2,
-          job_id: selectedJobId,
-          user_id: 5,
-          status: 'screening',
-          match_score: 87,
-          resume_text: 'Jordan Lee - Frontend Platform Specialist with deep Next.js performance expertise.',
-          applied_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString(),
-          updated_at: new Date().toISOString(),
-          user: {
-            id: 5,
-            email: 'jordan.lee@example.com',
-            full_name: 'Jordan Lee',
-            role: 'candidate',
-            headline: 'Senior Frontend Engineer | Web Vitals, Design Systems',
-            karma_points: 180,
-            avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-            location: 'Remote',
-            created_at: new Date().toISOString(),
-          }
-        }
-      ]);
+    }).catch((error) => {
+      console.error("Failed to fetch applicants:", error);
     });
   }, [selectedJobId]);
 

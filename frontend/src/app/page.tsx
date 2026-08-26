@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { jobsApi, communityApi, referralsApi } from '@/lib/api';
 import { Job, CommunityPost, ReferralListing } from '@/types';
-import { MOCK_JOBS, MOCK_COMMUNITY_POSTS, MOCK_REFERRAL_LISTINGS } from '@/lib/mockData';
 import { JobCard } from '@/components/jobs/JobCard';
 import { JobDetailModal } from '@/components/jobs/JobDetailModal';
 import { ApplyModal } from '@/components/jobs/ApplyModal';
@@ -27,9 +26,9 @@ export default function HomePage() {
   const [selectedLocation, setSelectedLocation] = useState('All');
 
   // Datasets
-  const [featuredJobs, setFeaturedJobs] = useState<Job[]>(MOCK_JOBS.slice(0, 3));
-  const [trendingPosts, setTrendingPosts] = useState<CommunityPost[]>(MOCK_COMMUNITY_POSTS.slice(0, 2));
-  const [activeReferrals, setActiveReferrals] = useState<ReferralListing[]>(MOCK_REFERRAL_LISTINGS.slice(0, 3));
+  const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]);
+  const [trendingPosts, setTrendingPosts] = useState<CommunityPost[]>([]);
+  const [activeReferrals, setActiveReferrals] = useState<ReferralListing[]>([]);
 
   // Modals state
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);

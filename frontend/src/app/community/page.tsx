@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { communityApi } from '@/lib/api';
 import { CommunityPost, CommunityChannel } from '@/types';
-import { MOCK_COMMUNITY_POSTS } from '@/lib/mockData';
 import { PostCard } from '@/components/community/PostCard';
 import { PostDetailModal } from '@/components/community/PostDetailModal';
 import { CreatePostModal } from '@/components/community/CreatePostModal';
@@ -28,7 +27,7 @@ const CHANNELS: { id: string; label: string; icon: any; count: number }[] = [
 function CommunityContent() {
   const searchParams = useSearchParams();
 
-  const [posts, setPosts] = useState<CommunityPost[]>(MOCK_COMMUNITY_POSTS);
+  const [posts, setPosts] = useState<CommunityPost[]>([]);
   const [selectedChannel, setSelectedChannel] = useState<string>(searchParams.get('channel') || 'all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('hot');
@@ -46,22 +45,8 @@ function CommunityContent() {
         sort_by: sortBy,
       });
       if (data && data.length > 0) setPosts(data);
-    } catch {
-      // Local fallback filter
-      let filtered = [...MOCK_COMMUNITY_POSTS];
-      if (selectedChannel !== 'all') {
-        filtered = filtered.filter((p) => p.channel === selectedChannel);
-      }
-      if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        filtered = filtered.filter(
-          (p) =>
-            p.title.toLowerCase().includes(q) ||
-            p.content.toLowerCase().includes(q) ||
-            (p.linked_company && p.linked_company.toLowerCase().includes(q))
-        );
-      }
-      setPosts(filtered);
+    } catch (error) {
+      console.error("Failed to fetch posts:", error);
     }
   };
 

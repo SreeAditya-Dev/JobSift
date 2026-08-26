@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Briefcase, MessageSquare, Award, Bot, X, ArrowRight, CornerDownLeft } from 'lucide-react';
-import { MOCK_JOBS, MOCK_COMMUNITY_POSTS, MOCK_REFERRAL_LISTINGS } from '@/lib/mockData';
+import { jobsApi, communityApi, referralsApi } from '@/lib/api';
+import { Job, CommunityPost, ReferralListing } from '@/types';
 
 interface GlobalSearchModalProps {
   isOpen: boolean;
@@ -13,6 +14,10 @@ interface GlobalSearchModalProps {
 export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
   const [query, setQuery] = useState('');
+  
+  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<CommunityPost[]>([]);
+  const [filteredReferrals, setFilteredReferrals] = useState<ReferralListing[]>([]);
 
   // Handle ESC key to close
   useEffect(() => {
@@ -28,40 +33,51 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
-  const qLower = query.toLowerCase().trim();
-
-  const filteredJobs = qLower
-    ? MOCK_JOBS.filter(
-        (j) =>
-          j.title.toLowerCase().includes(qLower) ||
-          j.company.toLowerCase().includes(qLower) ||
-          j.tech_stack.some((t) => t.toLowerCase().includes(qLower))
-      ).slice(0, 3)
-    : MOCK_JOBS.slice(0, 2);
-
-  const filteredPosts = qLower
-    ? MOCK_COMMUNITY_POSTS.filter(
-        (p) =>
-          p.title.toLowerCase().includes(qLower) ||
-          p.content.toLowerCase().includes(qLower) ||
-          (p.linked_company && p.linked_company.toLowerCase().includes(qLower))
-      ).slice(0, 3)
-    : MOCK_COMMUNITY_POSTS.slice(0, 2);
-
-  const filteredReferrals = qLower
-    ? MOCK_REFERRAL_LISTINGS.filter(
-        (r) =>
-          r.company.toLowerCase().includes(qLower) ||
-          r.role_category.toLowerCase().includes(qLower)
-      ).slice(0, 2)
-    : MOCK_REFERRAL_LISTINGS.slice(0, 2);
+  useEffect(() => {
+    if (!isOpen) return;
+    const fetchResults = async () => {
+      try {
+        const [jobs, posts, referrals] = await Promise.all([
+          jobsApi.getJobs(query ? { q: query } : {}),
+          communityApi.getPosts(query ? { search: query } : {}),
+          referralsApi.getListings()
+        ]);
+        
+        setFilteredJobs(jobs ? jobs.slice(0, 3) : []);
+        setFilteredPosts(posts ? posts.slice(0, 3) : []);
+        
+        // Filter referrals locally since backend doesn't support search param for referrals currently
+        if (referrals) {
+          const qLower = query.toLowerCase().trim();
+          const filtered = qLower
+            ? referrals.filter(
+                (r: any) =>
+                  r.company.toLowerCase().includes(qLower) ||
+                  r.role_category.toLowerCase().includes(qLower)
+              )
+            : referrals;
+          setFilteredReferrals(filtered.slice(0, 2));
+        } else {
+          setFilteredReferrals([]);
+        }
+      } catch (error) {
+        console.error("Global search failed:", error);
+      }
+    };
+    
+    // simple debounce
+    const timeoutId = setTimeout(() => {
+      fetchResults();
+    }, 300);
+    return () => clearTimeout(timeoutId);
+  }, [query, isOpen]);
 
   const navigateTo = (path: string) => {
     onClose();
     router.push(path);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">

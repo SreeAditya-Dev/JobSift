@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { referralsApi } from '@/lib/api';
 import { ReferralListing, ReferralRequest } from '@/types';
-import { MOCK_REFERRAL_LISTINGS } from '@/lib/mockData';
 import { useAuth } from '@/context/AuthContext';
 import { ReferralCard } from '@/components/referrals/ReferralCard';
 import { RequestReferralModal } from '@/components/referrals/RequestReferralModal';
@@ -21,7 +20,7 @@ function ReferralsContent() {
   const { user } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'browse' | 'my_requests' | 'incoming'>('browse');
-  const [listings, setListings] = useState<ReferralListing[]>(MOCK_REFERRAL_LISTINGS);
+  const [listings, setListings] = useState<ReferralListing[]>([]);
   const [myRequests, setMyRequests] = useState<ReferralRequest[]>([]);
   const [incomingRequests, setIncomingRequests] = useState<ReferralRequest[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -44,12 +43,8 @@ function ReferralsContent() {
         category: selectedCategory !== 'All' ? selectedCategory : undefined,
       });
       if (data && data.length > 0) setListings(data);
-    } catch {
-      let filtered = [...MOCK_REFERRAL_LISTINGS];
-      if (selectedCategory !== 'All') {
-        filtered = filtered.filter((l) => l.role_category.includes(selectedCategory));
-      }
-      setListings(filtered);
+    } catch (error) {
+      console.error("Failed to fetch listings:", error);
     }
   };
 
@@ -57,24 +52,8 @@ function ReferralsContent() {
     try {
       const data = await referralsApi.getMyRequests();
       setMyRequests(data);
-    } catch {
-      // Mock fallback
-      setMyRequests([
-        {
-          id: 1,
-          listing_id: 1,
-          candidate_id: user?.id || 1,
-          target_role_title: 'Senior Software Engineer, Google Cloud',
-          target_job_url: 'https://google.com/careers/123',
-          pitch: 'I have 5+ years building distributed full-stack systems and high-throughput microservices.',
-          match_score: 85,
-          status: 'accepted',
-          reviewer_note: 'Submitted your referral in the internal Google MOMA portal. Good luck!',
-          created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
-          updated_at: new Date().toISOString(),
-          listing: MOCK_REFERRAL_LISTINGS[0],
-        }
-      ]);
+    } catch (error) {
+      console.error("Failed to fetch my requests:", error);
     }
   };
 
@@ -82,22 +61,8 @@ function ReferralsContent() {
     try {
       const data = await referralsApi.getIncomingRequests();
       setIncomingRequests(data);
-    } catch {
-      // Mock fallback
-      setIncomingRequests([
-        {
-          id: 2,
-          listing_id: 1,
-          candidate_id: 1,
-          target_role_title: 'Staff SWE, Cloud Scheduling',
-          pitch: 'Lead engineer at high-growth SaaS, looking to bring distributed consensus experience to GCP.',
-          match_score: 92,
-          status: 'pending',
-          created_at: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
-          updated_at: new Date().toISOString(),
-          candidate: user || undefined,
-        }
-      ]);
+    } catch (error) {
+      console.error("Failed to fetch incoming requests:", error);
     }
   };
 

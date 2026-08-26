@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { applicationsApi } from '@/lib/api';
 import { Application } from '@/types';
-import { MOCK_APPLICATIONS } from '@/lib/mockData';
 import { KanbanBoard } from '@/components/tracker/KanbanBoard';
 import { RoleGuard } from '@/components/auth/RoleGuard';
 import { useAuth } from '@/context/AuthContext';
@@ -16,7 +15,7 @@ import {
 export default function TrackerPage() {
   const router = useRouter();
   const { openAuthModal } = useAuth();
-  const [applications, setApplications] = useState<Application[]>(MOCK_APPLICATIONS);
+  const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchPipeline = async () => {
@@ -24,9 +23,8 @@ export default function TrackerPage() {
     try {
       const data = await applicationsApi.getMyPipeline();
       if (data && data.length > 0) setApplications(data);
-    } catch {
-      // Fallback mock
-      setApplications(MOCK_APPLICATIONS);
+    } catch (error) {
+      console.error("Failed to fetch applications:", error);
     } finally {
       setIsLoading(false);
     }

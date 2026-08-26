@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { jobsApi } from '@/lib/api';
 import { Job } from '@/types';
-import { MOCK_JOBS } from '@/lib/mockData';
 import { JobCard } from '@/components/jobs/JobCard';
 import { JobDetailModal } from '@/components/jobs/JobDetailModal';
 import { ApplyModal } from '@/components/jobs/ApplyModal';
@@ -20,7 +19,7 @@ function JobsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [jobs, setJobs] = useState<Job[]>(MOCK_JOBS);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   // Filters State
@@ -52,28 +51,8 @@ function JobsContent() {
       });
       if (data && data.length > 0) setJobs(data);
       else setJobs([]);
-    } catch {
-      // Local filter fallback
-      let filtered = [...MOCK_JOBS];
-      if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        filtered = filtered.filter(
-          (j) =>
-            j.title.toLowerCase().includes(q) ||
-            j.company.toLowerCase().includes(q) ||
-            j.tech_stack.some((t) => t.toLowerCase().includes(q))
-        );
-      }
-      if (workplaceType !== 'All') {
-        filtered = filtered.filter((j) => j.workplace_type === workplaceType);
-      }
-      if (experienceLevel !== 'All') {
-        filtered = filtered.filter((j) => j.experience_level === experienceLevel);
-      }
-      if (minSalary > 0) {
-        filtered = filtered.filter((j) => j.salary_max >= minSalary);
-      }
-      setJobs(filtered);
+    } catch (error) {
+      console.error("Failed to fetch jobs:", error);
     } finally {
       setIsLoading(false);
     }
