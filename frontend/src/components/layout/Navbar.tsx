@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { useTheme } from '@/context/ThemeContext';
 import {
   Briefcase, MessageSquare, Award, Columns3, Bot,
   TrendingUp, Search, Sun, Moon, Bell, Menu, X, User, LogOut,
@@ -12,57 +11,19 @@ import {
 } from 'lucide-react';
 import { GlobalSearchModal } from '@/components/common/GlobalSearchModal';
 
-interface NotificationItem {
-  id: string;
-  title: string;
-  desc: string;
-  time: string;
-  unread: boolean;
-  type: 'referral' | 'interview' | 'job';
-}
 
-const SAMPLE_NOTIFICATIONS: NotificationItem[] = [
-  {
-    id: '1',
-    title: 'Referral Accepted 🎉',
-    desc: 'David Kim submitted your referral for Senior SWE at Google Cloud.',
-    time: '10m ago',
-    unread: true,
-    type: 'referral',
-  },
-  {
-    id: '2',
-    title: 'Interview Scheduled',
-    desc: 'Stripe DX team confirmed your System Design round for Thursday.',
-    time: '2h ago',
-    unread: true,
-    type: 'interview',
-  },
-  {
-    id: '3',
-    title: 'New Matched Role',
-    desc: 'OpenAI posted "AI Systems Engineer" matching 94% of your profile.',
-    time: '5h ago',
-    unread: false,
-    type: 'job',
-  },
-];
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout, openAuthModal } = useAuth();
-  const { theme, toggleTheme } = useTheme();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [notifications, setNotifications] = useState<NotificationItem[]>(SAMPLE_NOTIFICATIONS);
 
   const profileMenuRef = useRef<HTMLDivElement>(null);
-  const notifMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,19 +49,12 @@ export const Navbar: React.FC = () => {
       if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
         setIsProfileMenuOpen(false);
       }
-      if (notifMenuRef.current && !notifMenuRef.current.contains(event.target as Node)) {
-        setIsNotificationsOpen(false);
-      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const unreadCount = notifications.filter((n) => n.unread).length;
 
-  const markAllNotificationsRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
-  };
 
   const isActive = (href: string) => {
     if (href === '/jobs' && (pathname === '/jobs' || pathname.startsWith('/jobs/'))) return true;
@@ -243,107 +197,6 @@ export const Navbar: React.FC = () => {
                 <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.2 text-[9px] bg-[#292623] rounded border border-stone-700 font-mono text-stone-300 font-semibold">
                   ⌘K
                 </kbd>
-              </button>
-
-              {/* Notification Center with counter pill */}
-              <div className="relative" ref={notifMenuRef}>
-                <button
-                  onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                  className="relative p-2 rounded-full border border-stone-800 bg-[#1c1a18] hover:bg-[#252220] text-stone-300 transition-colors cursor-pointer focus:outline-none"
-                  aria-label="Notifications"
-                >
-                  <Bell className="w-3.5 h-3.5 text-stone-300" />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-white text-[9px] font-black text-black ring-2 ring-[#121110]">
-                      {unreadCount}
-                    </span>
-                  )}
-                </button>
-
-                {/* Notifications Dropdown */}
-                {isNotificationsOpen && (
-                  <div className="absolute right-0 mt-2 w-80 sm:w-88 rounded-2xl bg-[#181615] border border-stone-800 shadow-2xl py-2 z-50 animate-in fade-in-50 zoom-in-95">
-                    <div className="px-4 py-2.5 border-b border-stone-800 flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-bold text-white">Notifications</span>
-                        {unreadCount > 0 && (
-                          <span className="px-1.5 py-0.2 text-[10px] font-semibold bg-[#f2c89b]/15 text-[#f2c89b] rounded-full">
-                            {unreadCount} new
-                          </span>
-                        )}
-                      </div>
-                      {unreadCount > 0 && (
-                        <button
-                          onClick={markAllNotificationsRead}
-                          className="text-[11px] text-[#f2c89b] hover:underline font-medium cursor-pointer"
-                        >
-                          Mark all read
-                        </button>
-                      )}
-                    </div>
-
-                    <div className="max-h-72 overflow-y-auto divide-y divide-stone-800/60">
-                      {notifications.length === 0 ? (
-                        <div className="p-4 text-center text-xs text-stone-400">
-                          No notifications yet
-                        </div>
-                      ) : (
-                        notifications.map((n) => (
-                          <div
-                            key={n.id}
-                            className={`p-3 text-xs transition-colors hover:bg-white/5 flex items-start gap-2.5 ${
-                              n.unread ? 'bg-[#f2c89b]/5' : ''
-                            }`}
-                          >
-                            <div className={`mt-0.5 p-1 rounded-lg ${
-                              n.type === 'referral'
-                                ? 'bg-amber-500/10 text-amber-400'
-                                : n.type === 'interview'
-                                ? 'bg-emerald-500/10 text-emerald-400'
-                                : 'bg-[#f2c89b]/15 text-[#f2c89b]'
-                            }`}>
-                              {n.type === 'referral' ? <Award className="w-3.5 h-3.5" /> : n.type === 'interview' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Briefcase className="w-3.5 h-3.5" />}
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex items-center justify-between">
-                                <p className="font-semibold text-white">{n.title}</p>
-                                <span className="text-[10px] text-stone-400">{n.time}</span>
-                              </div>
-                              <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">{n.desc}</p>
-                            </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-
-                    <div className="px-4 py-2 border-t border-stone-800 bg-[#121110]/50 text-center">
-                      <button
-                        onClick={() => {
-                          setIsNotificationsOpen(false);
-                          router.push('/tracker');
-                        }}
-                        className="text-[11px] font-semibold text-[#f2c89b] hover:underline flex items-center justify-center gap-1 mx-auto"
-                      >
-                        <span>View Pipeline Tracker</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                aria-label="Toggle Theme"
-                className="p-2 rounded-full border border-stone-800 bg-[#1c1a18] hover:bg-[#252220] text-amber-400 transition-all duration-200 cursor-pointer focus:outline-none"
-                title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-              >
-                {theme === 'dark' ? (
-                  <Sun className="w-3.5 h-3.5 text-amber-400" />
-                ) : (
-                  <Moon className="w-3.5 h-3.5 text-stone-400" />
-                )}
               </button>
 
               {/* User Profile Avatar with dropdown chevron */}
