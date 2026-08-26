@@ -20,6 +20,7 @@ __pycache__/
 out/
 build/
 dist/
+*.tsbuildinfo
 
 # Environment files
 .env
