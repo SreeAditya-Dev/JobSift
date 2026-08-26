@@ -150,10 +150,6 @@ export const Navbar: React.FC = () => {
                       <span className="mt-0.5">OS</span>
                     </div>
                   </div>
-
-                  <span className="text-[9.5px] sm:text-[10px] text-stone-400 font-medium leading-none mt-1">
-                    Unified Career OS
-                  </span>
                 </div>
               </button>
             </div>
