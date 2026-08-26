@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { jobsApi, applicationsApi } from '@/lib/api';
 import { Job, Application } from '@/types';
 import { MOCK_JOBS } from '@/lib/mockData';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '@/lib/confetti';
 import {
   Briefcase, Plus, Users, Sparkles, CheckCircle2,
   AlertCircle, ArrowRight, DollarSign, MapPin, Search,
@@ -124,10 +124,7 @@ export const RecruiterDashboard: React.FC = () => {
       setJobs([created, ...jobs]);
       setSelectedJobId(created.id);
       setIsPostingJob(false);
-
-      try {
-        confetti({ particleCount: 70, spread: 60 });
-      } catch {}
+      fireConfetti({ particleCount: 70, spread: 60 });
     } catch {
       setIsPostingJob(false);
     }

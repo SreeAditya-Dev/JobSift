@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { aiApi } from '@/lib/api';
 import { MockInterviewSession, InterviewQuestion, MockAnswerFeedback } from '@/types';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '@/lib/confetti';
 import {
   MessageSquare, Bot, Sparkles, Send, CheckCircle2,
   AlertCircle, Award, Play, RotateCcw, ArrowRight,
@@ -145,9 +145,7 @@ export const MockInterviewStudio: React.FC<MockInterviewStudioProps> = ({
       setUserAnswer('');
     } else {
       setIsFinished(true);
-      try {
-        confetti({ particleCount: 100, spread: 80 });
-      } catch {}
+      fireConfetti({ particleCount: 100, spread: 80 });
     }
   };
 

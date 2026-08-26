@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Job } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 import { applicationsApi, aiApi } from '@/lib/api';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '@/lib/confetti';
 import {
   X, Briefcase, Sparkles, CheckCircle2, FileText, Send,
   Bot, AlertCircle, ArrowRight
@@ -59,13 +59,11 @@ export const ApplyModal: React.FC<ApplyModalProps> = ({ job, isOpen, onClose, on
       });
 
       // Fire celebratory confetti!
-      try {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 },
-        });
-      } catch {}
+      fireConfetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
 
       setIsAppliedSuccessfully(true);
       setTimeout(() => {
@@ -75,15 +73,13 @@ export const ApplyModal: React.FC<ApplyModalProps> = ({ job, isOpen, onClose, on
       }, 1800);
     } catch (err: any) {
       // If error (e.g. already applied in mock), show success anyway for demo
-      try {
-        confetti({ particleCount: 60, spread: 60 });
-      } catch {}
+      fireConfetti({ particleCount: 60, spread: 60 });
       setIsAppliedSuccessfully(true);
       setTimeout(() => {
         setIsAppliedSuccessfully(false);
         onSuccess();
         onClose();
-      }, 1500);
+      }, 1800);
     } finally {
       setIsSubmitting(false);
     }

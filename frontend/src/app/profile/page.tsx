@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { usersApi } from '@/lib/api';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '@/lib/confetti';
 import {
   User, Sparkles, Award, Briefcase, MapPin, Globe,
   Code2, Share2, Save, CheckCircle2, ShieldCheck, Plus, X
@@ -66,9 +66,7 @@ export default function ProfilePage() {
       await usersApi.updateProfile(updatedData);
       updateUserLocal(updatedData);
       setSavedSuccess(true);
-      try {
-        confetti({ particleCount: 50, spread: 50 });
-      } catch {}
+      fireConfetti({ particleCount: 50, spread: 50 });
       setTimeout(() => setSavedSuccess(false), 2000);
     } catch {
       updateUserLocal(updatedData);

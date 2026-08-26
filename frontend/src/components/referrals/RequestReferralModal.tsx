@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ReferralListing } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 import { referralsApi } from '@/lib/api';
-import confetti from 'canvas-confetti';
+import { fireConfetti } from '@/lib/confetti';
 import { X, Award, Send, CheckCircle2, ShieldCheck, Sparkles, Link as LinkIcon } from 'lucide-react';
 
 interface RequestReferralModalProps {
@@ -49,9 +49,7 @@ export const RequestReferralModal: React.FC<RequestReferralModalProps> = ({
         resume_snippet: user?.resume_text?.slice(0, 300) || '',
       });
 
-      try {
-        confetti({ particleCount: 70, spread: 60 });
-      } catch {}
+      fireConfetti({ particleCount: 70, spread: 60 });
 
       setIsSubmitted(true);
       setTimeout(() => {
@@ -60,15 +58,13 @@ export const RequestReferralModal: React.FC<RequestReferralModalProps> = ({
         onClose();
       }, 1500);
     } catch {
-      try {
-        confetti({ particleCount: 50, spread: 50 });
-      } catch {}
+      fireConfetti({ particleCount: 50, spread: 50 });
       setIsSubmitted(true);
       setTimeout(() => {
         setIsSubmitted(false);
         onSuccess();
         onClose();
-      }, 1200);
+      }, 1500);
     } finally {
       setIsSubmitting(false);
     }
