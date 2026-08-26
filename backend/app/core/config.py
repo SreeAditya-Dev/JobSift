@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days for development convenience
 
+    # Mistral AI - powers resume analysis, mock interview, cover letters & salary negotiation copy
+    MISTRAL_API_KEY: str = ""
+    MISTRAL_MODEL: str = "mistral-small-latest"
+
     # CORS origins
     BACKEND_CORS_ORIGINS: List[str] = [
         "http://localhost:3000",
