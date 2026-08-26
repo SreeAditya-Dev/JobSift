@@ -61,3 +61,31 @@ def get_optional_current_user(
     if not user_id:
         return None
     return db.query(User).filter(User.id == int(user_id)).first()
+
+
+# ==============================================================================
+# Role-Based Access Control (RBAC) Dependency Injectors
+# ==============================================================================
+class RequireRole:
+    """FastAPI dependency to enforce specific user role requirements on routes"""
+    def __init__(self, *allowed_roles: str):
+        self.allowed_roles = [r.lower() for r in allowed_roles]
+
+    def __call__(self, current_user: User = Depends(get_current_user)) -> User:
+        user_role = (current_user.role or "").lower()
+        if user_role not in self.allowed_roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Access forbidden: User role '{current_user.role}' is not authorized to access this resource. Allowed roles: {self.allowed_roles}",
+            )
+        return current_user
+
+
+# Reusable RBAC role dependencies
+require_candidate = RequireRole("candidate")
+require_recruiter = RequireRole("recruiter")
+require_employee = RequireRole("employee")
+require_candidate_or_employee = RequireRole("candidate", "employee")
+require_employee_or_recruiter = RequireRole("employee", "recruiter")
+require_any_authenticated = RequireRole("candidate", "recruiter", "employee")
+

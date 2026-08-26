@@ -12,7 +12,7 @@ from app.schemas.schemas import (
     ReferralListingResponse, ReferralListingCreate,
     ReferralRequestResponse, ReferralRequestCreate
 )
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, require_candidate_or_employee, require_employee_or_recruiter
 from app.api.auth import format_user_response
 
 router = APIRouter(prefix="/referrals", tags=["Referrals"])
@@ -83,10 +83,10 @@ def get_referral_listings(
 @router.post("/listings", response_model=ReferralListingResponse)
 def create_referral_listing(
     listing_in: ReferralListingCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_employee_or_recruiter),
     db: Session = Depends(get_db)
 ):
-    """Offer referrals at your company (for verified employees)"""
+    """Offer referrals at your company (RBAC: Verified Employees & Recruiters)"""
     new_listing = ReferralListing(
         employee_id=current_user.id,
         company=listing_in.company or current_user.company or "Tech Company",
@@ -108,10 +108,10 @@ def create_referral_listing(
 @router.post("/requests", response_model=ReferralRequestResponse)
 def request_referral(
     req_in: ReferralRequestCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_candidate_or_employee),
     db: Session = Depends(get_db)
 ):
-    """Request a referral from a verified employee with your pitch & profile"""
+    """Request a referral from a verified employee with your pitch & profile (RBAC: Candidates & Employees)"""
     listing = db.query(ReferralListing).filter(ReferralListing.id == req_in.listing_id).first()
     if not listing:
         raise HTTPException(status_code=404, detail="Referral listing not found")
@@ -123,7 +123,7 @@ def request_referral(
         target_role_title=req_in.target_role_title,
         pitch=req_in.pitch,
         portfolio_url=req_in.portfolio_url or current_user.portfolio_url or "",
-        resume_snippet=req_in.resume_snippet or current_user.resume_text[:300] if current_user.resume_text else "",
+        resume_snippet=req_in.resume_snippet or (current_user.resume_text[:300] if current_user.resume_text else ""),
         match_score=88,
         status="pending"
     )
@@ -142,8 +142,8 @@ def get_my_referral_requests(current_user: User = Depends(get_current_user), db:
 
 
 @router.get("/incoming-requests", response_model=List[ReferralRequestResponse])
-def get_incoming_referral_requests(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    """Employee portal: View candidate referral requests received for your listings"""
+def get_incoming_referral_requests(current_user: User = Depends(require_employee_or_recruiter), db: Session = Depends(get_db)):
+    """Employee portal: View candidate referral requests received for your listings (RBAC: Employees & Referrers)"""
     my_listings = db.query(ReferralListing.id).filter(ReferralListing.employee_id == current_user.id).all()
     listing_ids = [l[0] for l in my_listings]
 
@@ -156,13 +156,18 @@ def review_referral_request(
     request_id: int,
     status: str,  # 'accepted', 'submitted', 'declined'
     reviewer_note: Optional[str] = "",
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_employee_or_recruiter),
     db: Session = Depends(get_db)
 ):
-    """Employee reviews referral request (Approve, Submit into internal portal, or Decline)"""
+    """Employee reviews referral request (RBAC: Employee listing owner)"""
     req = db.query(ReferralRequest).filter(ReferralRequest.id == request_id).first()
     if not req:
         raise HTTPException(status_code=404, detail="Request not found")
+
+    # Verify listing owner
+    listing = db.query(ReferralListing).filter(ReferralListing.id == req.listing_id).first()
+    if not listing or listing.employee_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Permission denied: You can only review requests for your own referral listings")
 
     req.status = status
     req.reviewer_note = reviewer_note or ""

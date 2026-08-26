@@ -9,7 +9,7 @@ from sqlalchemy import or_, desc
 from app.core.database import get_db
 from app.models.models import Job, User, SavedJob, CommunityPost, ReferralListing
 from app.schemas.schemas import JobResponse, JobCreate, PostResponse, ReferralListingResponse
-from app.api.deps import get_current_user, get_optional_current_user
+from app.api.deps import get_current_user, get_optional_current_user, require_recruiter
 from app.services.ai_engine import extract_skills_from_text
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
@@ -214,8 +214,8 @@ def get_job_insider_intelligence(job_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("", response_model=JobResponse)
-def create_job(job_in: JobCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    """Post a new job opening (Recruiter / Hiring Manager)"""
+def create_job(job_in: JobCreate, current_user: User = Depends(require_recruiter), db: Session = Depends(get_db)):
+    """Post a new job opening (RBAC: Recruiter only)"""
     new_job = Job(
         title=job_in.title,
         company=job_in.company or current_user.company or "Tech Company",

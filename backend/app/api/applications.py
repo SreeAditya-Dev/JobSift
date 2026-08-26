@@ -9,7 +9,7 @@ from sqlalchemy import desc
 from app.core.database import get_db
 from app.models.models import Application, Job, User
 from app.schemas.schemas import ApplicationResponse, ApplicationCreate, ApplicationStatusUpdate
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, require_candidate_or_employee, require_recruiter
 from app.api.jobs import parse_job_model
 from app.api.auth import format_user_response
 
@@ -48,8 +48,8 @@ def get_my_pipeline(current_user: User = Depends(get_current_user), db: Session 
 
 
 @router.post("/apply", response_model=ApplicationResponse)
-def apply_to_job(app_in: ApplicationCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    """Submit an application to a job"""
+def apply_to_job(app_in: ApplicationCreate, current_user: User = Depends(require_candidate_or_employee), db: Session = Depends(get_db)):
+    """Submit an application to a job (RBAC: Candidates & Employees)"""
     job = db.query(Job).filter(Job.id == app_in.job_id).first()
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
@@ -118,8 +118,8 @@ def update_application_status(
 
 
 @router.get("/job/{job_id}/applicants", response_model=List[ApplicationResponse])
-def get_job_applicants(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    """Recruiter portal: View all applicants for a posted job, ranked by AI match score"""
+def get_job_applicants(job_id: int, current_user: User = Depends(require_recruiter), db: Session = Depends(get_db)):
+    """Recruiter portal: View all applicants for a posted job, ranked by AI match score (RBAC: Recruiter only)"""
     job = db.query(Job).filter(Job.id == job_id).first()
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
