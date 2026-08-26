@@ -8,7 +8,7 @@ import {
   Briefcase, MessageSquare, Award, Columns3, Bot,
   TrendingUp, Search, Sun, Moon, Bell, Menu, X, User, LogOut,
   ChevronDown, Sparkles, Plus, CheckCircle2, UserCheck, Users,
-  ArrowRight, ShieldCheck, Compass
+  ArrowRight, ShieldCheck, Compass, LogIn, UserPlus
 } from 'lucide-react';
 import { GlobalSearchModal } from '@/components/common/GlobalSearchModal';
 
@@ -51,7 +51,7 @@ const SAMPLE_NOTIFICATIONS: NotificationItem[] = [
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logout, switchPersona, isLoading } = useAuth();
+  const { user, logout, openAuthModal } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -105,14 +105,38 @@ export const Navbar: React.FC = () => {
     setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
   };
 
-  const navLinks = [
-    { label: 'Explore Jobs', shortLabel: 'Jobs', href: '/jobs', icon: Briefcase },
-    { label: 'Kanban Tracker', shortLabel: 'Tracker', href: '/tracker', icon: Columns3 },
-    { label: 'Referrals', shortLabel: 'Referrals', href: '/referrals', icon: Award },
-    { label: 'Community', shortLabel: 'Discuss', href: '/community', icon: MessageSquare },
-    { label: 'Salaries', shortLabel: 'Salaries', href: '/salaries', icon: TrendingUp },
-    { label: 'AI Copilot', shortLabel: 'AI Copilot', href: '/ai-copilot', icon: Bot, isAiSpecial: true },
-  ];
+  // Role-Aware Navigation Links
+  const getNavLinks = () => {
+    if (user?.role === 'recruiter') {
+      return [
+        { label: 'Talent Hub', shortLabel: 'Hub', href: '/recruiter', icon: Briefcase },
+        { label: 'Post Role', shortLabel: 'Post', href: '/recruiter?tab=post', icon: Plus },
+        { label: 'Community', shortLabel: 'Discuss', href: '/community', icon: MessageSquare },
+        { label: 'Salaries', shortLabel: 'Salaries', href: '/salaries', icon: TrendingUp },
+        { label: 'Explore Jobs', shortLabel: 'Jobs', href: '/jobs', icon: Compass },
+      ];
+    }
+    if (user?.role === 'employee') {
+      return [
+        { label: 'Referral Matchmaker', shortLabel: 'Referrals', href: '/referrals', icon: Award },
+        { label: 'Explore Jobs', shortLabel: 'Jobs', href: '/jobs', icon: Briefcase },
+        { label: 'Community', shortLabel: 'Discuss', href: '/community', icon: MessageSquare },
+        { label: 'Salaries', shortLabel: 'Salaries', href: '/salaries', icon: TrendingUp },
+        { label: 'AI Copilot', shortLabel: 'AI Copilot', href: '/ai-copilot', icon: Bot, isAiSpecial: true },
+      ];
+    }
+    // Candidate & Public Visitor
+    return [
+      { label: 'Explore Jobs', shortLabel: 'Jobs', href: '/jobs', icon: Briefcase },
+      { label: 'Kanban Tracker', shortLabel: 'Tracker', href: '/tracker', icon: Columns3 },
+      { label: 'Referrals', shortLabel: 'Referrals', href: '/referrals', icon: Award },
+      { label: 'Community', shortLabel: 'Discuss', href: '/community', icon: MessageSquare },
+      { label: 'Salaries', shortLabel: 'Salaries', href: '/salaries', icon: TrendingUp },
+      { label: 'AI Copilot', shortLabel: 'AI Copilot', href: '/ai-copilot', icon: Bot, isAiSpecial: true },
+    ];
+  };
+
+  const navLinks = getNavLinks();
 
   const isActive = (href: string) => {
     if (href === '/jobs' && (pathname === '/jobs' || pathname.startsWith('/jobs/'))) return true;
@@ -121,6 +145,7 @@ export const Navbar: React.FC = () => {
     if (href === '/referrals' && (pathname === '/referrals' || pathname.startsWith('/referrals/'))) return true;
     if (href === '/salaries' && (pathname === '/salaries' || pathname.startsWith('/salaries/'))) return true;
     if (href === '/ai-copilot' && (pathname === '/ai-copilot' || pathname.startsWith('/ai-copilot/'))) return true;
+    if (href.startsWith('/recruiter') && pathname.startsWith('/recruiter')) return true;
     return pathname === href;
   };
 
@@ -136,7 +161,7 @@ export const Navbar: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between gap-2 sm:gap-4">
-            {/* Left: Brand Logo & Compass Sift Mark */}
+            {/* Left: Brand Logo */}
             <div className="flex items-center gap-3 lg:gap-5">
               <button
                 onClick={() => router.push('/')}
@@ -162,7 +187,7 @@ export const Navbar: React.FC = () => {
               </button>
             </div>
 
-            {/* Center: Dock Item Pills (Desktop) */}
+            {/* Center: Dynamic Role-Aware Dock Item Pills (Desktop) */}
             <nav className="hidden lg:flex items-center space-x-1 p-1 rounded-full bg-muted/30 border border-border/40" aria-label="Main Navigation">
               {navLinks.map((item) => {
                 const Icon = item.icon;
@@ -206,7 +231,7 @@ export const Navbar: React.FC = () => {
               })}
             </nav>
 
-            {/* Right: Dock Utility Actions */}
+            {/* Right: Controls & User Auth Suite */}
             <div className="flex items-center gap-1.5 sm:gap-2">
               {/* Quick Command Palette Search (Cmd+K) */}
               <button
@@ -222,20 +247,26 @@ export const Navbar: React.FC = () => {
                 </kbd>
               </button>
 
-              {/* Recruiter / Post Job Action */}
-              <button
-                onClick={() => router.push('/recruiter')}
-                className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                  pathname === '/recruiter'
-                    ? 'bg-primary text-primary-foreground shadow-xs'
-                    : 'border border-primary/40 text-primary hover:bg-primary/10 hover:border-primary'
-                }`}
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Post Job</span>
-              </button>
+              {/* Dynamic Action Button based on Role */}
+              {user?.role === 'recruiter' ? (
+                <button
+                  onClick={() => router.push('/recruiter')}
+                  className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold shadow-xs hover:opacity-90 transition-all cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Post Job</span>
+                </button>
+              ) : user?.role === 'employee' ? (
+                <button
+                  onClick={() => router.push('/referrals')}
+                  className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10 text-xs font-semibold transition-all cursor-pointer"
+                >
+                  <Award className="w-3.5 h-3.5" />
+                  <span>Offer Referral</span>
+                </button>
+              ) : null}
 
-              {/* Notification Popover Button */}
+              {/* Notification Center */}
               <div className="relative" ref={notifMenuRef}>
                 <button
                   onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
@@ -322,7 +353,7 @@ export const Navbar: React.FC = () => {
                 )}
               </div>
 
-              {/* Theme Toggle Button */}
+              {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
                 aria-label="Toggle Theme"
@@ -336,7 +367,7 @@ export const Navbar: React.FC = () => {
                 )}
               </button>
 
-              {/* User Profile Chip & Persona Switcher */}
+              {/* User Authenticated Profile or Login CTA */}
               {user ? (
                 <div className="relative" ref={profileMenuRef}>
                   <button
@@ -390,7 +421,7 @@ export const Navbar: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Navigation Links */}
+                      {/* Navigation Links according to Role */}
                       <div className="py-1">
                         <button
                           onClick={() => {
@@ -400,81 +431,73 @@ export const Navbar: React.FC = () => {
                           className="w-full px-4 py-2 text-xs text-left text-foreground hover:bg-muted flex items-center gap-2.5 cursor-pointer transition-colors"
                         >
                           <User className="w-3.5 h-3.5 text-primary" />
-                          <span>My Profile & Resume</span>
+                          <span>My Profile & Settings</span>
                         </button>
 
-                        <button
-                          onClick={() => {
-                            setIsProfileMenuOpen(false);
-                            router.push('/tracker');
-                          }}
-                          className="w-full px-4 py-2 text-xs text-left text-foreground hover:bg-muted flex items-center gap-2.5 cursor-pointer transition-colors"
-                        >
-                          <Columns3 className="w-3.5 h-3.5 text-primary" />
-                          <span>Kanban Application Tracker</span>
-                        </button>
+                        {user.role === 'candidate' && (
+                          <>
+                            <button
+                              onClick={() => {
+                                setIsProfileMenuOpen(false);
+                                router.push('/tracker');
+                              }}
+                              className="w-full px-4 py-2 text-xs text-left text-foreground hover:bg-muted flex items-center gap-2.5 cursor-pointer transition-colors"
+                            >
+                              <Columns3 className="w-3.5 h-3.5 text-primary" />
+                              <span>Application Kanban</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                setIsProfileMenuOpen(false);
+                                router.push('/referrals');
+                              }}
+                              className="w-full px-4 py-2 text-xs text-left text-foreground hover:bg-muted flex items-center gap-2.5 cursor-pointer transition-colors"
+                            >
+                              <Award className="w-3.5 h-3.5 text-primary" />
+                              <span>My Referral Requests</span>
+                            </button>
+                          </>
+                        )}
 
-                        <button
-                          onClick={() => {
-                            setIsProfileMenuOpen(false);
-                            router.push('/referrals');
-                          }}
-                          className="w-full px-4 py-2 text-xs text-left text-foreground hover:bg-muted flex items-center gap-2.5 cursor-pointer transition-colors"
-                        >
-                          <Award className="w-3.5 h-3.5 text-primary" />
-                          <span>My Referral Matchmaker</span>
-                        </button>
+                        {user.role === 'recruiter' && (
+                          <button
+                            onClick={() => {
+                              setIsProfileMenuOpen(false);
+                              router.push('/recruiter');
+                            }}
+                            className="w-full px-4 py-2 text-xs text-left text-foreground hover:bg-muted flex items-center gap-2.5 cursor-pointer transition-colors"
+                          >
+                            <Briefcase className="w-3.5 h-3.5 text-primary" />
+                            <span>Recruiter Command Center</span>
+                          </button>
+                        )}
+
+                        {user.role === 'employee' && (
+                          <button
+                            onClick={() => {
+                              setIsProfileMenuOpen(false);
+                              router.push('/referrals');
+                            }}
+                            className="w-full px-4 py-2 text-xs text-left text-foreground hover:bg-muted flex items-center gap-2.5 cursor-pointer transition-colors"
+                          >
+                            <Award className="w-3.5 h-3.5 text-primary" />
+                            <span>Referral Dashboard</span>
+                          </button>
+                        )}
                       </div>
 
-                      {/* 1-Click Fast Switch Section Inside Dropdown */}
-                      <div className="border-t border-border pt-2 pb-1 px-4">
-                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-                          Fast Switch Persona
-                        </p>
-                        <div className="grid grid-cols-3 gap-1">
-                          <button
-                            onClick={() => {
-                              switchPersona('candidate');
-                              setIsProfileMenuOpen(false);
-                            }}
-                            disabled={isLoading || user.role === 'candidate'}
-                            className={`px-1.5 py-1 rounded-lg text-[10px] font-medium text-center transition-colors cursor-pointer ${
-                              user.role === 'candidate'
-                                ? 'bg-primary text-primary-foreground font-bold shadow-2xs'
-                                : 'bg-muted hover:bg-muted/80 text-foreground'
-                            }`}
-                          >
-                            Candidate
-                          </button>
-                          <button
-                            onClick={() => {
-                              switchPersona('recruiter');
-                              setIsProfileMenuOpen(false);
-                            }}
-                            disabled={isLoading || user.role === 'recruiter'}
-                            className={`px-1.5 py-1 rounded-lg text-[10px] font-medium text-center transition-colors cursor-pointer ${
-                              user.role === 'recruiter'
-                                ? 'bg-primary text-primary-foreground font-bold shadow-2xs'
-                                : 'bg-muted hover:bg-muted/80 text-foreground'
-                            }`}
-                          >
-                            Recruiter
-                          </button>
-                          <button
-                            onClick={() => {
-                              switchPersona('employee');
-                              setIsProfileMenuOpen(false);
-                            }}
-                            disabled={isLoading || user.role === 'employee'}
-                            className={`px-1.5 py-1 rounded-lg text-[10px] font-medium text-center transition-colors cursor-pointer ${
-                              user.role === 'employee'
-                                ? 'bg-primary text-primary-foreground font-bold shadow-2xs'
-                                : 'bg-muted hover:bg-muted/80 text-foreground'
-                            }`}
-                          >
-                            Referrer
-                          </button>
-                        </div>
+                      {/* Switch Account / Sign In */}
+                      <div className="border-t border-border pt-1 pb-1 px-2">
+                        <button
+                          onClick={() => {
+                            setIsProfileMenuOpen(false);
+                            openAuthModal('login');
+                          }}
+                          className="w-full px-2.5 py-1.5 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-muted flex items-center gap-2 cursor-pointer transition-colors"
+                        >
+                          <LogIn className="w-3.5 h-3.5 text-muted-foreground" />
+                          <span>Switch / Log in to another account</span>
+                        </button>
                       </div>
 
                       {/* Sign Out */}
@@ -494,12 +517,21 @@ export const Navbar: React.FC = () => {
                   )}
                 </div>
               ) : (
-                <button
-                  onClick={() => switchPersona('candidate')}
-                  className="px-3.5 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold shadow-xs hover:opacity-90 active:scale-95 transition-all cursor-pointer"
-                >
-                  Sign In
-                </button>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => openAuthModal('login')}
+                    className="px-3 py-1.5 rounded-full text-xs font-semibold text-foreground hover:bg-card border border-border/80 transition-all cursor-pointer"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => openAuthModal('signup')}
+                    className="px-3.5 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-bold shadow-xs hover:opacity-90 active:scale-95 transition-all cursor-pointer flex items-center gap-1"
+                  >
+                    <UserPlus className="w-3.5 h-3.5" />
+                    <span>Join Free</span>
+                  </button>
+                </div>
               )}
 
               {/* Mobile Hamburger Toggle */}
@@ -549,26 +581,43 @@ export const Navbar: React.FC = () => {
               </div>
 
               <div className="pt-2 border-t border-border flex items-center justify-between text-xs">
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    router.push('/recruiter');
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-primary-foreground font-semibold shadow-xs"
-                >
-                  <Plus className="w-3.5 h-3.5" /> Post a Job
-                </button>
-
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    router.push('/profile');
-                  }}
-                  className="text-muted-foreground hover:text-foreground font-medium flex items-center gap-1"
-                >
-                  <span>Edit Profile</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                {user ? (
+                  <>
+                    <span className="text-muted-foreground text-[11px]">
+                      Signed in as <strong className="text-foreground font-semibold">{user.full_name}</strong> ({user.role})
+                    </span>
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        logout();
+                      }}
+                      className="text-destructive font-semibold hover:underline"
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex items-center gap-2 w-full justify-between">
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        openAuthModal('login');
+                      }}
+                      className="text-primary font-semibold hover:underline"
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        openAuthModal('signup');
+                      }}
+                      className="px-3 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-xs"
+                    >
+                      Create Account
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -580,5 +629,3 @@ export const Navbar: React.FC = () => {
     </>
   );
 };
-
-

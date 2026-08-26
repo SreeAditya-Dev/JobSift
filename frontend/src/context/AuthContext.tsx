@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, UserRole } from '@/types';
 import { INITIAL_USER } from '@/lib/mockData';
 import { authApi } from '@/lib/api';
+import { AuthModal } from '@/components/auth/AuthModal';
 
 interface AuthContextType {
   user: User | null;
@@ -14,6 +15,8 @@ interface AuthContextType {
   logout: () => void;
   switchPersona: (role: UserRole) => Promise<void>;
   updateUserLocal: (updatedFields: Partial<User>) => void;
+  openAuthModal: (mode?: 'login' | 'signup', role?: UserRole) => void;
+  closeAuthModal: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -25,12 +28,29 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => {},
   switchPersona: async () => {},
   updateUserLocal: () => {},
+  openAuthModal: () => {},
+  closeAuthModal: () => {},
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(INITIAL_USER);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Global Auth Modal state
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('login');
+  const [authModalRole, setAuthModalRole] = useState<UserRole>('candidate');
+
+  const openAuthModal = (mode: 'login' | 'signup' = 'login', role: UserRole = 'candidate') => {
+    setAuthModalMode(mode);
+    setAuthModalRole(role);
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+  };
 
   // Initialize auth state
   useEffect(() => {
@@ -162,9 +182,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
         switchPersona,
         updateUserLocal,
+        openAuthModal,
+        closeAuthModal,
       }}
     >
       {children}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={closeAuthModal}
+        initialMode={authModalMode}
+        initialRole={authModalRole}
+      />
     </AuthContext.Provider>
   );
 };

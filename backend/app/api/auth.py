@@ -70,6 +70,7 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
         portfolio_url=user_in.portfolio_url or "",
         github_url=user_in.github_url or "",
         linkedin_url=user_in.linkedin_url or "",
+        resume_text=user_in.resume_text or "",
         karma_points=100
     )
     db.add(new_user)

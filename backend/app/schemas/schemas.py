@@ -23,6 +23,7 @@ class UserBase(BaseModel):
     portfolio_url: Optional[str] = ""
     github_url: Optional[str] = ""
     linkedin_url: Optional[str] = ""
+    resume_text: Optional[str] = ""
 
 
 class UserCreate(UserBase):

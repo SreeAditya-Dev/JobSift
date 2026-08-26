@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { AuthProvider } from '@/context/AuthContext';
-import { PersonaBanner } from '@/components/common/PersonaBanner';
 import { BannerWithLinkButtons } from '@/components/ui/banner-demo';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -24,7 +23,6 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors selection:bg-secondary selection:text-secondary-foreground">
         <ThemeProvider>
           <AuthProvider>
-            <PersonaBanner />
             <BannerWithLinkButtons />
             <Navbar />
             <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">

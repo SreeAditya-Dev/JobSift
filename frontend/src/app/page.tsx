@@ -21,7 +21,7 @@ import {
 
 export default function HomePage() {
   const router = useRouter();
-  const { user, switchPersona } = useAuth();
+  const { user, openAuthModal } = useAuth();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('All');
