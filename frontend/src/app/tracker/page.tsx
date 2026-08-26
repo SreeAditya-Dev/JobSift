@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 import { applicationsApi } from '@/lib/api';
 import { Application } from '@/types';
 import { KanbanBoard } from '@/components/tracker/KanbanBoard';
+import { InterviewCalendar } from '@/components/tracker/InterviewCalendar';
 import { RoleGuard } from '@/components/auth/RoleGuard';
 import { useAuth } from '@/context/AuthContext';
 import {
   Columns3, Plus, Sparkles, TrendingUp, CheckCircle2,
-  Briefcase, ArrowRight
+  Briefcase, ArrowRight, CalendarDays
 } from 'lucide-react';
 
 export default function TrackerPage() {
@@ -17,6 +18,7 @@ export default function TrackerPage() {
   const { user, openAuthModal } = useAuth();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [view, setView] = useState<'board' | 'calendar'>('board');
 
   const fetchPipeline = async () => {
     setIsLoading(true);
@@ -100,8 +102,34 @@ export default function TrackerPage() {
           </div>
         </div>
 
-        {/* Interactive Kanban Board */}
-        <KanbanBoard applications={applications} onRefresh={fetchPipeline} />
+        {/* View Toggle */}
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-muted w-fit">
+          <button
+            onClick={() => setView('board')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors ${
+              view === 'board' ? 'bg-card text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Columns3 className="w-3.5 h-3.5" />
+            <span>Board</span>
+          </button>
+          <button
+            onClick={() => setView('calendar')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors ${
+              view === 'calendar' ? 'bg-card text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <CalendarDays className="w-3.5 h-3.5" />
+            <span>Interview Calendar</span>
+          </button>
+        </div>
+
+        {/* Interactive Kanban Board / Interview Calendar */}
+        {view === 'board' ? (
+          <KanbanBoard applications={applications} onRefresh={fetchPipeline} />
+        ) : (
+          <InterviewCalendar applications={applications} onRefresh={fetchPipeline} />
+        )}
       </div>
     </RoleGuard>
   );
