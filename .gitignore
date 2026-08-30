@@ -45,3 +45,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Tooling & Assistant directories
+.21st/
+.claude/
+
