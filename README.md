@@ -134,6 +134,54 @@ JobSift includes a top **Evaluator Fast-Switch Banner** to test different user p
 
 ---
 
+## 🔐 Environment Variables Configuration
+
+JobSift works out-of-the-box with built-in fallbacks, but you can configure environment variables for custom databases, live AI generation via Mistral, and custom ports.
+
+### 🐍 Backend (`backend/.env`)
+
+Copy `backend/.env.example` to `backend/.env`:
+
+```bash
+cd backend
+cp .env.example .env     # On Linux/macOS
+# copy .env.example .env # On Windows CMD
+```
+
+| Variable | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `DATABASE_URL` | String | `sqlite:///./jobsift.db` | Full database URI (SQLite or PostgreSQL / Neon). |
+| `PGHOST` | String | _(Optional)_ | PostgreSQL host address (e.g. Neon host). |
+| `PGDATABASE` | String | `neondb` | PostgreSQL database name. |
+| `PGUSER` | String | _(Optional)_ | PostgreSQL username. |
+| `PGPASSWORD` | String | _(Optional)_ | PostgreSQL password. |
+| `PGPORT` | Integer | `5432` | PostgreSQL port. |
+| `PGSSLMODE` | String | `require` | SSL mode (`require` or `disable`). |
+| `SECRET_KEY` | String | `jobsift-super-secret-...` | Secret key used to sign and verify JWT authentication tokens. |
+| `ALGORITHM` | String | `HS256` | JWT encryption algorithm. |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | Integer | `10080` | JWT token lifespan in minutes (default 7 days). |
+| `MISTRAL_API_KEY` | String | `""` | *(Optional)* Mistral AI API key for dynamic resume scoring & live mock interviews. If blank, built-in offline heuristics are used. |
+| `MISTRAL_MODEL` | String | `mistral-small-latest` | Mistral model identifier. |
+| `BACKEND_CORS_ORIGINS` | JSON Array | `["http://localhost:3000", ...]` | Allowed CORS origins for frontend requests. |
+
+---
+
+### ⚛️ Frontend (`frontend/.env.local`)
+
+Copy `frontend/.env.example` to `frontend/.env.local`:
+
+```bash
+cd frontend
+cp .env.example .env.local     # On Linux/macOS
+# copy .env.example .env.local # On Windows CMD
+```
+
+| Variable | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `NEXT_PUBLIC_API_URL` | String | `http://localhost:8000/api` | Base URL of the FastAPI backend API. |
+
+---
+
 ## ⚡ Quick Start Guide (Run Locally)
 
 ### Prerequisites
